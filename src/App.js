@@ -8,7 +8,7 @@ const App = () => {
   const addPlayer = () => {
     setPlayers([
       ...players,
-      <Player />
+      <Player player={players.length + 1} />
     ])
   }
 
