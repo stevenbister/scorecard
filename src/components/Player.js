@@ -20,7 +20,7 @@ const Player = ({player}) => {
 
   return (
     <>
-      <p>Player: {!!player ? player : 1}</p>
+      <p contentEditable='true' >Player: {!!player ? player : 1}</p>
       <ContentEditable html={text.current} onChange={handleChange} style={style} />
       <Score score={score} />
     </>
