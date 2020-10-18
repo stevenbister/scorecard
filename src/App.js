@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import Player from './components/Player';
+import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
+
+import Player from './components/Player/Player';
+import './App.css';
 
 const App = () => {
   const [ players, setPlayers ] = useState([<Player />]);
@@ -24,11 +27,19 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      <button onClick={addPlayer}>Add player</button>
-      <button onClick={removePlayer}>Remove player</button>
+    <div className='App'>
+      <header className='App__header'>
+        <h1>Scorecard</h1>
 
-      { players.map( player => player ) }
+        <div className='App__button--container'>
+          <button className='App__button App__button--primary' onClick={addPlayer} aria-label='Add player'><AiOutlineUserAdd /></button>
+          <button className='App__button App__button--secondary' onClick={removePlayer} aria-label='Remove player'><AiOutlineUserDelete /></button>
+        </div>
+      </header>
+
+      <main className='App__main'>
+        { players.map( player => player ) }
+      </main>
     </div>
   );
 }

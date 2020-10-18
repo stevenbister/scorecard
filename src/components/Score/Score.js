@@ -1,12 +1,13 @@
 import React from 'react';
-import { stringToArray, arrayValuesToNumbers, sumArray } from '../utils/arrayManipulators'
+import { stringToArray, arrayValuesToNumbers, sumArray } from '../../utils/arrayManipulators'
+import './Score.css';
 
 const Score = ({score}) => {
   const totalScore = sumArray(arrayValuesToNumbers(stringToArray(score)))
   return (
-    <p>
+    <footer className='Score'>
       Score: { isNaN(totalScore) ? 0 : totalScore }
-    </p>
+    </footer>
   )
 }
 

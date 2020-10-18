@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
 import ContentEditable from 'react-contenteditable'
-import Score from './Score';
+import Score from '../Score/Score';
+import './Player.css'
 
 const Player = ({player}) => {
   const [ score, setScore ] = useState('0');
@@ -14,16 +15,17 @@ const Player = ({player}) => {
     setScore(text.current)
   };
 
-  const style = {
-    backgroundColor: '#eee',
-  }
-
   return (
-    <>
-      <p contentEditable='true' >Player: {!!player ? player : 1}</p>
-      <ContentEditable html={text.current} onChange={handleChange} style={style} />
+    <article className='Player'>
+      <h2 className='Player__title' contentEditable='true'>Player: {!!player ? player : 1}</h2>
+      <ContentEditable
+        html={text.current}
+        tagName='section'
+        onChange={handleChange}
+        className='Player__textbox'
+      />
       <Score score={score} />
-    </>
+    </article>
   )
 }
 

@@ -1,0 +1,43 @@
+.App {
+  background: var(--color__bg);
+  font-family: var(--font__primary--family);
+  color: var(--color__text);
+  height: 100vh;
+}
+
+.App__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: solid 1px var(--color__text);
+}
+
+.App__header h1 {
+  font-size: 2.25rem;
+}
+
+.App__main {
+  display: flex;
+  grid-auto-flow: row;
+  padding: 0 0.5rem;
+  min-height: calc(100vh - 87px);
+  overflow-x: scroll;
+}
+
+.App__button {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+
+.App__button--primary {
+  color: var(--color__primary);
+}
+
+.App__button--secondary {
+  color: var(--color__secondary);
+}
