@@ -17,7 +17,9 @@ const Player = ({player}) => {
 
   return (
     <article className='Player'>
-      <h2 className='Player__title' contentEditable='true'>Player: {!!player ? player : 1}</h2>
+      <h2 className='Player__title' contentEditable='true' suppressContentEditableWarning={true}>
+        Player: {!!player ? player : 1}
+      </h2>
       <ContentEditable
         html={text.current}
         tagName='section'
