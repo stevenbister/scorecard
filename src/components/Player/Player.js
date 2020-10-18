@@ -1,4 +1,5 @@
 import React, {useState, useRef} from 'react';
+import PropTypes from 'prop-types';
 import ContentEditable from 'react-contenteditable'
 import Score from '../Score/Score';
 import './Player.css'
@@ -29,6 +30,10 @@ const Player = ({player}) => {
       <Score score={score} />
     </article>
   )
+}
+
+Player.propTypes = {
+  player: PropTypes.number,
 }
 
 export default Player;
