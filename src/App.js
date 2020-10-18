@@ -11,7 +11,7 @@ const App = () => {
   const addPlayer = () => {
     setPlayers([
       ...players,
-      <Player player={players.length + 1} />
+      <Player />
     ])
   }
 
@@ -38,7 +38,7 @@ const App = () => {
       </header>
 
       <main className='App__main'>
-        { players.map( player => player ) }
+        { players.map( (player, i) => <Player player={i + 1} key={`Player ${i + 1}`} /> ) }
       </main>
     </div>
   );
