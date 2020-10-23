@@ -13,7 +13,7 @@ const Player = ({player}) => {
   const handleChange = evt => {
     text.current = evt.target.value;
 
-    setScore(text.current)
+    setScore(text.current || '0')
   };
 
   return (
@@ -21,12 +21,14 @@ const Player = ({player}) => {
       <h2 className='Player__title' contentEditable='true' suppressContentEditableWarning={true}>
         Player: {!!player ? player : 1}
       </h2>
+
       <ContentEditable
         html={text.current}
         tagName='section'
         onChange={handleChange}
         className='Player__textbox'
       />
+
       <Score score={score} />
     </article>
   )
