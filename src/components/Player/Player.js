@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import ContentEditable from 'react-contenteditable'
+import { stringToArray, arrayValuesToNumbers, sumArray } from '../../utils/arrayManipulators'
 import Score from '../Score/Score';
 import './Player.css'
 
@@ -10,10 +11,14 @@ const Player = ({player}) => {
   // https://reactjs.org/docs/refs-and-the-dom.html
   const text = useRef('');
 
+
   const handleChange = evt => {
     text.current = evt.target.value;
 
-    setScore(text.current || '0')
+    const scoreArr = stringToArray(text.current);
+    const totalScore = sumArray(arrayValuesToNumbers(scoreArr));
+
+    setScore(totalScore || '0')
   };
 
   return (
