@@ -2,17 +2,19 @@
 
 :root {
   --color__bg: #fbfffe;
+  --color__bg--dark: #2e2e2e;
   --color__primary: #4ecdc4;
   --color__secondary: #e75a7c;
   --color__text: #584b53;
+  --color__text--dark: #fbfffe;
   --font__primary--family: "Boogaloo", cursive;
   --font__size--body: 1.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color__bg: #2e2e2e;
-    --color__text: #fbfffe;
+    --color__bg: var(--color__bg--dark);
+    --color__text: var(--color__text--dark);
   }
 }
 
@@ -21,6 +23,11 @@
   font-family: var(--font__primary--family);
   color: var(--color__text);
   height: 100vh;
+}
+
+.App--dark {
+  --color__bg: var(--color__bg--dark);
+  --color__text: var(--color__text--dark);
 }
 
 .App__header {
