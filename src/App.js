@@ -32,7 +32,7 @@ const App = () => {
   const toggleColorState = () => color === 'light' ? setColor('dark') : setColor('light');
 
   return (
-    <div className='App'>
+    <div className={`App ${ color === 'dark' ? 'App--dark' : '' }`}>
       <header className='App__header'>
         <h1>Scorecard</h1>
 
