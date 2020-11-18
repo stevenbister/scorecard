@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
 
 import Player from './components/Player/Player';
+import ColorSwitcher from './components/ColorSwitcher/ColorSwitcher'
 import './App.css';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         <h1>Scorecard</h1>
 
         <div className='App__button--container'>
+          <ColorSwitcher />
           <button className='App__button App__button--primary' onClick={addPlayer} aria-label='Add player'><AiOutlineUserAdd /></button>
           <button className='App__button App__button--secondary' onClick={removePlayer} aria-label='Remove player'><AiOutlineUserDelete /></button>
         </div>
