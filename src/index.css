@@ -1,21 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Boogaloo&display=swap");
-
-:root {
-  --color__bg: #fbfffe;
-  --color__primary: #4ecdc4;
-  --color__secondary: #e75a7c;
-  --color__text: #584b53;
-  --font__primary--family: "Boogaloo", cursive;
-  --font__size--body: 1.5rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color__bg: #2e2e2e;
-    --color__text: #fbfffe;
-  }
-}
-
 /* Reset */
 /* Set box sizing to border-box so everything sizes like you'd expect. */
 *,
