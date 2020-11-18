@@ -11,13 +11,6 @@
   --font__size--body: 1.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color__bg: var(--color__bg--dark);
-    --color__text: var(--color__text--dark);
-  }
-}
-
 .App {
   background: var(--color__bg);
   font-family: var(--font__primary--family);
