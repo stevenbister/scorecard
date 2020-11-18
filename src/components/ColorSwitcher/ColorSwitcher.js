@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FiSun, FiMoon } from 'react-icons/fi'
 
-const ColorSwitcher = () => {
-  const [ color, setColor ] = useState('light');
-
-  const toggleColorState = () => color === 'light' ? setColor('dark') : setColor('light');
+const ColorSwitcher = ({ color, handleClick }) => {
 
   return (
-    <button aria-label="Light mode" onClick={ toggleColorState }>
+    <button aria-label="Light mode" onClick={ handleClick }>
       { color === 'light' ? <FiSun /> : <FiMoon /> }
     </button>
   );
