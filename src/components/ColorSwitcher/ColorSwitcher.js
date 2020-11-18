@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FiSun, FiMoon } from 'react-icons/fi'
+import './ColorSwitcher.css'
 
 const ColorSwitcher = ({ color, handleClick }) => (
-  <button aria-label="Light mode" onClick={ handleClick }>
+  // TODO: handle aria label
+  <button className='App__button Switcher' aria-label="Light mode" onClick={ handleClick }>
     { color === 'light' ? <FiSun /> : <FiMoon /> }
   </button>
 )
