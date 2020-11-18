@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
 
 import Player from './components/Player/Player';
@@ -27,6 +27,17 @@ const App = () => {
       ])
     }
   }
+
+  // Check if the prefered colour scheme is light or dark and set the state accordingly
+  useEffect( () => {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+
+    isDarkMode.matches ? setColor('dark') : setColor('light');
+
+    isDarkMode.addEventListener('change', () => {
+      color === 'light' ? setColor('dark') : setColor('light');
+    })
+  }, [color] )
 
   // Toggle the state of the colour
   const toggleColorState = () => color === 'light' ? setColor('dark') : setColor('light');
