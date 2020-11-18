@@ -4,8 +4,7 @@ import { FiSun, FiMoon } from 'react-icons/fi'
 import './ColorSwitcher.css'
 
 const ColorSwitcher = ({ color, handleClick }) => (
-  // TODO: handle aria label
-  <button className='App__button Switcher' aria-label="Light mode" onClick={ handleClick }>
+  <button className='App__button Switcher' aria-label={color === 'light' ? 'Activate dark mode' : 'Activate light mode'} onClick={ handleClick }>
     { color === 'light' ? <FiSun /> : <FiMoon /> }
   </button>
 )
