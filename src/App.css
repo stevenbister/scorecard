@@ -11,16 +11,16 @@
   --font__size--body: 1.5rem;
 }
 
+.is-dark {
+  --color__bg: var(--color__bg--dark);
+  --color__text: var(--color__text--dark);
+}
+
 .App {
   background: var(--color__bg);
   font-family: var(--font__primary--family);
   color: var(--color__text);
   height: 100vh;
-}
-
-.App--dark {
-  --color__bg: var(--color__bg--dark);
-  --color__text: var(--color__text--dark);
 }
 
 .App__header {
