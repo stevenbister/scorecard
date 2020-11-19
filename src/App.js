@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
-import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai'
+import React, { useState } from 'react';
+import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai';
 
 import Player from './components/Player/Player';
-import ColorSwitcher from './components/ColorSwitcher/ColorSwitcher'
+import ColorSwitcher from './components/ColorSwitcher/ColorSwitcher';
 import './App.css';
 
 const App = () => {
   const [ players, setPlayers ] = useState([<Player />]);
-  const [ color, setColor ] = useState('light');
 
   // This let's us add multiple players to the app
   const addPlayer = () => {
@@ -28,16 +27,13 @@ const App = () => {
     }
   }
 
-  // Toggle the state of the colour
-  const toggleColorState = () => color === 'light' ? setColor('dark') : setColor('light');
-
   return (
-    <div className={`App ${ color === 'dark' ? 'App--dark' : '' }`}>
+    <div className='App'>
       <header className='App__header'>
         <h1>Scorecard</h1>
 
         <div className='App__button--container'>
-          <ColorSwitcher color={color} handleClick={ toggleColorState } />
+          <ColorSwitcher />
 
           <button className='App__button App__button--primary' onClick={addPlayer} aria-label='Add player'><AiOutlineUserAdd /></button>
           <button className='App__button App__button--secondary' onClick={removePlayer} aria-label='Remove player'><AiOutlineUserDelete /></button>
