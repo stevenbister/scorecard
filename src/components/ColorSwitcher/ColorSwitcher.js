@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { FiSun, FiMoon } from 'react-icons/fi'
 import './ColorSwitcher.css'
@@ -19,6 +19,15 @@ const ColorSwitcher = () => {
 
   // Function to toggle the state of the colour
   const toggleColorState = () =>  isDark ? setisDark(false) : setisDark(true);
+
+  // If the isDark state is true add a class to the html element
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('is-dark');
+    } else {
+      document.documentElement.classList.remove('is-dark');
+    }
+  }, [isDark]);
 
   return (
     <button className='App__button Switcher' aria-label={isDark ? 'Activate light mode' : 'Activate dark mode'} onClick={ toggleColorState } >
