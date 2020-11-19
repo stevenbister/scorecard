@@ -6,20 +6,22 @@ import './ColorSwitcher.css'
 
 const ColorSwitcher = () => {
 
-  // Check if the prefered colour scheme is light or dark and set the state accordingly
-  const systemPrefersDark = useMediaQuery({
-    query: '(prefers-color-scheme: dark)' },
+  // Check if the prefered colour scheme is dark and set the state accordingly
+  const systemPrefersDark = useMediaQuery(
+    {
+      query: '(prefers-color-scheme: dark)'
+    },
     undefined,
     (prefersDark) => setisDark(prefersDark)
   );
 
   const [ isDark, setisDark ] = useState(systemPrefersDark);
 
-  // Toggle the state of the colour
+  // Function to toggle the state of the colour
   const toggleColorState = () =>  isDark ? setisDark(false) : setisDark(true);
 
   return (
-    <button className='App__button Switcher' aria-label={isDark ? 'Activate light mode' : 'Activate dark mode'} onClick={ toggleColorState }>
+    <button className='App__button Switcher' aria-label={isDark ? 'Activate light mode' : 'Activate dark mode'} onClick={ toggleColorState } >
       { isDark ? <FiMoon /> : <FiSun /> }
     </button>
   );
