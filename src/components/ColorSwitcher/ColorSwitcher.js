@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
 import { FiSun, FiMoon } from 'react-icons/fi'
 import './ColorSwitcher.css'
@@ -25,11 +24,6 @@ const ColorSwitcher = () => {
       { isDark ? <FiMoon /> : <FiSun /> }
     </button>
   );
-}
-
-ColorSwitcher.propTypes = {
-  color: PropTypes.string,
-  handleClick: PropTypes.func,
 }
 
 export default ColorSwitcher;
