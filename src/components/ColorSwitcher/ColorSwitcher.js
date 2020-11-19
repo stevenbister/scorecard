@@ -14,6 +14,7 @@ const ColorSwitcher = () => {
     (prefersDark) => setisDark(prefersDark)
   );
 
+  // Set the dark state
   const [ isDark, setisDark ] = useState(systemPrefersDark);
 
   // Function to toggle the state of the colour
