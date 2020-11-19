@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai';
 
 import Player from './components/Player/Player';
@@ -28,26 +27,13 @@ const App = () => {
     }
   }
 
-  // Check if the prefered colour scheme is light or dark and set the state accordingly
-  // TODO: move this back out into the component, can handle adding the class with something like useeffect
-  const systemPrefersDark = useMediaQuery({
-    query: '(prefers-color-scheme: dark)' },
-    undefined,
-    (prefersDark) => setisDark(prefersDark)
-  );
-
-  const [ isDark, setisDark ] = useState(systemPrefersDark);
-
-  // Toggle the state of the colour
-  const toggleColorState = () =>  isDark ? setisDark(false) : setisDark(true);
-
   return (
-    <div className={`App ${ isDark ? 'App--dark' : '' }`}>
+    <div className='App'>
       <header className='App__header'>
         <h1>Scorecard</h1>
 
         <div className='App__button--container'>
-          <ColorSwitcher color={isDark} handleClick={ toggleColorState } />
+          <ColorSwitcher />
 
           <button className='App__button App__button--primary' onClick={addPlayer} aria-label='Add player'><AiOutlineUserAdd /></button>
           <button className='App__button App__button--secondary' onClick={removePlayer} aria-label='Remove player'><AiOutlineUserDelete /></button>
