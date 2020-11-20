@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai';
 
 import Player from './components/Player/Player';
@@ -6,24 +6,28 @@ import ColorSwitcher from './components/ColorSwitcher/ColorSwitcher';
 import './App.css';
 
 const App = () => {
-  const [ players, setPlayers ] = useState([<Player />]);
+  // Start the app with a default of one player
+  const [playerIds, setPlayerIds] = useState([0]);
 
   // This let's us add multiple players to the app
   const addPlayer = () => {
-    setPlayers([
-      ...players,
-      <Player />
+    const id = playerIds.length;
+
+    setPlayerIds([
+      ...playerIds,
+      id
     ])
   }
 
   // Aaaaaand this removes the latst one added
   const removePlayer = () => {
-    if ( players.length > 1 ) {
-      players.pop();
+    if ( playerIds.length > 1 ) {
+      playerIds.pop();
 
-      setPlayers([
-        ...players,
+      setPlayerIds([
+        ...playerIds,
       ])
+
     }
   }
 
@@ -41,7 +45,7 @@ const App = () => {
       </header>
 
       <main className='App__main'>
-        { players.map( (player, i) => <Player player={i + 1} key={`Player ${i + 1}`} /> ) }
+        { playerIds.map( player => <Player player={player + 1} key={`Player ${player + 1}`} /> ) }
       </main>
     </div>
   );
