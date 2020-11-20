@@ -19,7 +19,7 @@ const stringToArray = (str) => {
 }
 
 // Convert the array values into numbers
-const arrayValuesToNumbers = (arr) => arr.map( value => parseFloat(value))
+const arrayValuesToNumbers = (arr) => arr.map( value => Number(value))
 
 // Get the sum of the array
 const sumArray = (arr) =>  arr.reduce((accumulator, currentValue) => accumulator + currentValue);
