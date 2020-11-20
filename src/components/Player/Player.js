@@ -10,12 +10,15 @@ const Player = ({player}) => {
   // Use helps us access dom events and other elements
   // https://reactjs.org/docs/refs-and-the-dom.html
   const text = useRef('');
+  const playerName = useRef('');
 
   const localstorageItems = {
     playerCurrentText: `player${player}CurrentText`,
     playerScore: `player${player}Score`,
+    playerName: `player${player}Name`
   }
 
+  // Update round scores
   const handleChange = evt => {
     text.current = evt.target.value;
 
@@ -31,9 +34,33 @@ const Player = ({player}) => {
     localStorage.setItem(localstorageItems.playerScore, totalScore);
   };
 
+  // Update player name
+  const changePlayerName = evt => {
+    playerName.current = evt.target.value;
+
+    localStorage.setItem(localstorageItems.playerName, playerName.current);
+  }
+
+  const formatPlayerName = () => {
+    let formattedPlayerName;
+
+    // We want to get the current value or the stored of the name
+    // However if it is left blank we want it to fall back to Player
+    if (playerName.current) {
+      formattedPlayerName = playerName.current;
+    } else if (storedName && storedName !== '<br>') {
+      formattedPlayerName = storedName;
+    } else {
+      formattedPlayerName = `Player: ${player}`;
+    }
+
+    return formattedPlayerName;
+  }
+
   // Get items in localstorage
   const storedCurrentText = localStorage.getItem(localstorageItems.playerCurrentText);
   const storedTotalScore = localStorage.getItem(localstorageItems.playerScore);
+  const storedName = localStorage.getItem(localstorageItems.playerName);
 
   // If items in localstorage exist then display them and set state
   useEffect(() => {
@@ -59,12 +86,14 @@ const Player = ({player}) => {
     }
   }
 
-
   return (
     <article className='Player'>
-      <h2 className='Player__title' contentEditable='true' suppressContentEditableWarning={true}>
-        Player: {!!player ? player : 1}
-      </h2>
+      <ContentEditable
+        html={formatPlayerName()}
+        tagName='h2'
+        onChange={changePlayerName}
+        className='Player__title'
+      />
 
       <ContentEditable
         html={text.current}
