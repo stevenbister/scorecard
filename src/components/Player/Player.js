@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import ContentEditable from 'react-contenteditable'
 import { stringToArray, arrayValuesToNumbers, sumArray } from '../../utils/arrayManipulators'
 import Score from '../Score/Score';
@@ -11,22 +11,54 @@ const Player = ({player}) => {
   // https://reactjs.org/docs/refs-and-the-dom.html
   const text = useRef('');
 
+  const localstorageItems = {
+    playerCurrentText: `player${player}CurrentText`,
+    playerScore: `player${player}Score`,
+  }
+
   const handleChange = evt => {
     text.current = evt.target.value;
 
     const scoreArr = stringToArray(text.current);
     const totalScore = sumArray(arrayValuesToNumbers(scoreArr));
 
-    setScore(totalScore || 0)
+    setScore(totalScore || 0);
+
+    // Save the text content to localstorage
+    localStorage.setItem(localstorageItems.playerCurrentText, text.current);
+
+    // Save the total score to the localstorage
+    localStorage.setItem(localstorageItems.playerScore, totalScore);
   };
+
+  // Get items in localstorage
+  const storedCurrentText = localStorage.getItem(localstorageItems.playerCurrentText);
+  const storedTotalScore = localStorage.getItem(localstorageItems.playerScore);
+
+  // If items in localstorage exist then display them and set state
+  useEffect(() => {
+
+    if (storedCurrentText) {
+      text.current = storedCurrentText
+    }
+
+    if (storedTotalScore) {
+      setScore(Number(storedTotalScore));
+    }
+
+  }, [storedCurrentText, storedTotalScore])
 
   // Reset score
   const setScoreToZero = () => {
     if ( score > 0 ) {
       setScore(0);
       text.current = '';
+
+      localStorage.removeItem(localstorageItems.playerCurrentText);
+      localStorage.removeItem(localstorageItems.playerScore);
     }
   }
+
 
   return (
     <article className='Player'>
