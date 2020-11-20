@@ -5,8 +5,9 @@ const stringToArray = (str) => {
   // Replace the <br>s with a 0 so we can do calculations safely
   const brRegex = /<br>/g
 
-  const strWithSpaces = str.replace(divRegex, ' ').replace(closingDivRegex, '').replace(brRegex, 0);
+  const strWithSpaces = str.replace(divRegex, ' ').replace(closingDivRegex, '').replace(brRegex, '');
 
+  console.log(strWithSpaces);
   // push into an array as numbers
   return strWithSpaces.split(' ');
 }
