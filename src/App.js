@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineUserAdd, AiOutlineUserDelete } from 'react-icons/ai';
-
 import Player from './components/Player/Player';
 import ColorSwitcher from './components/ColorSwitcher/ColorSwitcher';
 import './App.css';
@@ -32,9 +31,12 @@ const App = () => {
   // Load players from localstorage
   useEffect(() => {
     const storedPlayers = localStorage.getItem('players');
-    console.log(storedPlayers);
 
-  })
+    if ( storedPlayers && typeof storedPlayers === 'string' ) {
+      const storedPlayersArr = storedPlayers.split(',').map(id => Number(id));
+      setPlayerIds(storedPlayersArr)
+    }
+  }, [])
 
   return (
     <div className='App'>
