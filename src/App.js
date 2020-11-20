@@ -13,23 +13,28 @@ const App = () => {
   const addPlayer = () => {
     const id = playerIds.length;
 
-    setPlayerIds([
-      ...playerIds,
-      id
-    ])
+    setPlayerIds([...playerIds, id,]);
+
+    localStorage.setItem('players', [...playerIds, id,]);
   }
 
-  // Aaaaaand this removes the latst one added
+  // Aaaaaand this removes the last one added
   const removePlayer = () => {
     if ( playerIds.length > 1 ) {
       playerIds.pop();
 
-      setPlayerIds([
-        ...playerIds,
-      ])
+      setPlayerIds([...playerIds,])
 
+      localStorage.setItem('players', [...playerIds,]);
     }
   }
+
+  // Load players from localstorage
+  useEffect(() => {
+    const storedPlayers = localStorage.getItem('players');
+    console.log(storedPlayers);
+
+  })
 
   return (
     <div className='App'>
