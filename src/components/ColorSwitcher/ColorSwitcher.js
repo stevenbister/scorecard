@@ -6,19 +6,33 @@ import './ColorSwitcher.css'
 const ColorSwitcher = () => {
 
   // Check if the prefered colour scheme is dark and set the state accordingly
-  const systemPrefersDark = useMediaQuery(
-    {
-      query: '(prefers-color-scheme: dark)'
-    },
-    undefined,
-    (prefersDark) => setisDark(prefersDark)
-  );
+  const systemPrefersDark = useMediaQuery({query: '(prefers-color-scheme: dark)'});
+
+  const userPrefersDark = localStorage.getItem('userPrefersDark');
+
+  const colorPreference = useEffect(() => {
+    if (systemPrefersDark) {
+      setisDark(true);
+    } else if (userPrefersDark) {
+      setisDark(true);
+    } else {
+      setisDark(false);
+    }
+  }, [userPrefersDark, systemPrefersDark]);
 
   // Set the dark state
-  const [ isDark, setisDark ] = useState(systemPrefersDark);
+  const [ isDark, setisDark ] = useState(colorPreference);
 
   // Function to toggle the state of the colour
-  const toggleColorState = () =>  isDark ? setisDark(false) : setisDark(true);
+  const toggleColorState = () =>  {
+    if (isDark) {
+      setisDark(false)
+      localStorage.removeItem('userPrefersDark');
+    } else {
+      setisDark(true)
+      localStorage.setItem('userPrefersDark', true);
+    }
+  };
 
   // If the isDark state is true add a class to the html element
   useEffect(() => {
