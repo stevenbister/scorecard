@@ -1,5 +1,4 @@
 import React, {useState, useRef} from 'react';
-import PropTypes from 'prop-types';
 import ContentEditable from 'react-contenteditable'
 import { stringToArray, arrayValuesToNumbers, sumArray } from '../../utils/arrayManipulators'
 import Score from '../Score/Score';
