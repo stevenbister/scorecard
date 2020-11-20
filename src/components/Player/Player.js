@@ -42,8 +42,10 @@ const Player = ({player}) => {
         className='Player__textbox'
       />
 
-      <Score score={score} />
-      <ClearScore onClick={setScoreToZero} />
+      <footer className='Player__footer'>
+        <Score score={score} />
+        <ClearScore onClick={setScoreToZero} />
+      </footer>
     </article>
   )
 }
