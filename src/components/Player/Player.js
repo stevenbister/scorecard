@@ -6,7 +6,7 @@ import ClearScore from '../ClearScore/ClearScore';
 import './Player.css'
 
 const Player = ({player}) => {
-  const [ score, setScore ] = useState('0');
+  const [ score, setScore ] = useState(0);
   // Use helps us access dom events and other elements
   // https://reactjs.org/docs/refs-and-the-dom.html
   const text = useRef('');
@@ -17,13 +17,13 @@ const Player = ({player}) => {
     const scoreArr = stringToArray(text.current);
     const totalScore = sumArray(arrayValuesToNumbers(scoreArr));
 
-    setScore(totalScore || '0')
+    setScore(totalScore || 0)
   };
 
   // Reset score
   const setScoreToZero = () => {
     if ( score > 0 ) {
-      setScore('0');
+      setScore(0);
       text.current = '';
     }
   }
