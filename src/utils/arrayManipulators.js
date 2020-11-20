@@ -7,9 +7,15 @@ const stringToArray = (str) => {
 
   const strWithSpaces = str.replace(divRegex, ' ').replace(closingDivRegex, '').replace(brRegex, '');
 
-  console.log(strWithSpaces);
-  // push into an array as numbers
-  return strWithSpaces.split(' ');
+  const array = strWithSpaces.split(' ');
+
+  // If the first item in the array is empty then remove it
+  // Seems to fix issue in FireFox where empty first item was getting added
+  if ( Array.isArray(array) && array[0] === '' ) {
+    array.shift();
+  }
+
+  return array;
 }
 
 // Convert the array values into numbers
