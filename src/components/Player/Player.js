@@ -1,8 +1,8 @@
 import React, {useState, useRef} from 'react';
-import PropTypes from 'prop-types';
 import ContentEditable from 'react-contenteditable'
 import { stringToArray, arrayValuesToNumbers, sumArray } from '../../utils/arrayManipulators'
 import Score from '../Score/Score';
+import ClearScore from '../ClearScore/ClearScore';
 import './Player.css'
 
 const Player = ({player}) => {
@@ -10,7 +10,6 @@ const Player = ({player}) => {
   // Use helps us access dom events and other elements
   // https://reactjs.org/docs/refs-and-the-dom.html
   const text = useRef('');
-
 
   const handleChange = evt => {
     text.current = evt.target.value;
@@ -20,6 +19,14 @@ const Player = ({player}) => {
 
     setScore(totalScore || '0')
   };
+
+  // Reset score
+  const setScoreToZero = () => {
+    if ( score > 0 ) {
+      setScore('0');
+      text.current = '';
+    }
+  }
 
   return (
     <article className='Player'>
@@ -34,13 +41,12 @@ const Player = ({player}) => {
         className='Player__textbox'
       />
 
-      <Score score={score} />
+      <footer className='Player__footer'>
+        <Score score={score} />
+        <ClearScore onClick={setScoreToZero} />
+      </footer>
     </article>
   )
-}
-
-Player.propTypes = {
-  player: PropTypes.number,
 }
 
 export default Player;

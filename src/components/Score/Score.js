@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import './Score.css';
 
 const Score = ({score}) => (
-  <footer className='Score'>
+  <p className='Score'>
     Score: {score}
-  </footer>
+  </p>
 )
 
 Score.propTypes = {

@@ -12,3 +12,7 @@
 .Player__textbox {
   font-size: var(--font__size--body);
 }
+
+.Player__footer {
+  display: flex;
+}
