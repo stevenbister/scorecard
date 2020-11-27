@@ -10,7 +10,8 @@ const stringToArray = (str) => {
     .replace(divRegex, ' ')
     .replace(closingDivRegex, '')
     .replace(brRegex, '')
-    .replace(blankSpaceRegex, '');
+    .replace(blankSpaceRegex, '')
+    .trim();
 
   const array = strWithSpaces.split(' ');
 
