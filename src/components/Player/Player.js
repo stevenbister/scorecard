@@ -48,6 +48,7 @@ const Player = ({player}) => {
     // However if it is left blank we want it to fall back to Player
     if (playerName.current) {
       formattedPlayerName = playerName.current;
+      // Because we're using an editable div we need to check for breaks as blanks
     } else if (storedName && storedName !== '<br>') {
       formattedPlayerName = storedName;
     } else {
