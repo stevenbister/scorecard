@@ -75,6 +75,17 @@ const Player = ({player}) => {
     return formattedPlayerName;
   }
 
+  // Reset score
+  const setScoreToZero = () => {
+    if ( score > 0 ) {
+      setScore(0);
+      text.current = '';
+
+      localStorage.removeItem(localstorageItems.playerCurrentText);
+      localStorage.removeItem(localstorageItems.playerScore);
+    }
+  }
+
   // Get items in localstorage
   const storedCurrentText = localStorage.getItem(localstorageItems.playerCurrentText);
   const storedTotalScore = localStorage.getItem(localstorageItems.playerScore);
@@ -92,17 +103,6 @@ const Player = ({player}) => {
     }
 
   }, [storedCurrentText, storedTotalScore])
-
-  // Reset score
-  const setScoreToZero = () => {
-    if ( score > 0 ) {
-      setScore(0);
-      text.current = '';
-
-      localStorage.removeItem(localstorageItems.playerCurrentText);
-      localStorage.removeItem(localstorageItems.playerScore);
-    }
-  }
 
   return (
     <article className='Player'>
