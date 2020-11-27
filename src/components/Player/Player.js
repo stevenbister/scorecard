@@ -34,6 +34,23 @@ const Player = ({player}) => {
     localStorage.setItem(localstorageItems.playerScore, totalScore);
   };
 
+  // Only allow numbers
+  const handleKeyDown = evt => {
+    const key = evt.keyCode;
+
+    if (
+      isNaN(String.fromCharCode(evt.which))
+        && key !== 8 // backspace
+        && key !== 190 // decimal
+        && key !== 37 // left arrow
+        && key !== 38 // up arrow
+        && key !== 39 // right arrow
+        && key !== 40 // down arrow
+      ) {
+      evt.preventDefault()
+    };
+  }
+
   // Update player name
   const changePlayerName = evt => {
     playerName.current = evt.target.value;
@@ -58,6 +75,17 @@ const Player = ({player}) => {
     return formattedPlayerName;
   }
 
+  // Reset score
+  const setScoreToZero = () => {
+    if ( score > 0 ) {
+      setScore(0);
+      text.current = '';
+
+      localStorage.removeItem(localstorageItems.playerCurrentText);
+      localStorage.removeItem(localstorageItems.playerScore);
+    }
+  }
+
   // Get items in localstorage
   const storedCurrentText = localStorage.getItem(localstorageItems.playerCurrentText);
   const storedTotalScore = localStorage.getItem(localstorageItems.playerScore);
@@ -76,17 +104,6 @@ const Player = ({player}) => {
 
   }, [storedCurrentText, storedTotalScore])
 
-  // Reset score
-  const setScoreToZero = () => {
-    if ( score > 0 ) {
-      setScore(0);
-      text.current = '';
-
-      localStorage.removeItem(localstorageItems.playerCurrentText);
-      localStorage.removeItem(localstorageItems.playerScore);
-    }
-  }
-
   return (
     <article className='Player'>
       <ContentEditable
@@ -99,8 +116,9 @@ const Player = ({player}) => {
       <ContentEditable
         html={text.current}
         tagName='section'
-        onChange={handleChange}
         className='Player__textbox'
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
 
       <footer className='Player__footer'>
