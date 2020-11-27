@@ -10,7 +10,7 @@ const stringToArray = (str) => {
   const array = strWithSpaces.split(' ');
 
   // If the first item in the array is empty then remove it
-  // Seems to fix issue in FireFox where empty first item was getting added
+  // Fixes an issue in FireFox where empty first item was getting added
   if ( Array.isArray(array) && array[0] === '' ) {
     array.shift();
   }
