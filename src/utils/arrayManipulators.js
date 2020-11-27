@@ -1,11 +1,16 @@
 const stringToArray = (str) => {
   // use regex to replace the html <div>s with a ' ' and the </div> with ''
-  const divRegex = /<div>/g
-  const closingDivRegex = /<\/div>/g
+  const divRegex = /<div>/g;
+  const closingDivRegex = /<\/div>/g;
+  const blankSpaceRegex = /&nbsp;/g;
   // Replace the <br>s with a 0 so we can do calculations safely
-  const brRegex = /<br>/g
+  const brRegex = /<br>/g;
 
-  const strWithSpaces = str.replace(divRegex, ' ').replace(closingDivRegex, '').replace(brRegex, '');
+  const strWithSpaces = str
+    .replace(divRegex, ' ')
+    .replace(closingDivRegex, '')
+    .replace(brRegex, '')
+    .replace(blankSpaceRegex, '');
 
   const array = strWithSpaces.split(' ');
 
@@ -14,6 +19,8 @@ const stringToArray = (str) => {
   if ( Array.isArray(array) && array[0] === '' ) {
     array.shift();
   }
+
+  console.log(array);
 
   return array;
 }
