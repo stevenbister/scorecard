@@ -39,7 +39,7 @@ const Player = ({player}) => {
     const key = evt.keyCode;
 
     if (
-      isNaN(String.fromCharCode(evt.which))
+      isNaN(String.fromCharCode(key))
         && key !== 8 // backspace
         && key !== 190 // decimal
         && key !== 37 // left arrow
