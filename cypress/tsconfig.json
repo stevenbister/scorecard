@@ -1,5 +1,8 @@
 {
-  "exclude": [],
+  "exclude": [
+    "../node_modules/@types/jest",
+    "../node_modules/@testing-library/jest-dom"
+  ],
   "include": ["./index.ts", "**/*.ts", "../node_modules/cypress"],
   "compilerOptions": {
     "baseUrl": ".",
