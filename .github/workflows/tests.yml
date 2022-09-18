@@ -16,32 +16,25 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - run: npm run lint
-
   static-typecheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: npm install
       - run: npm run typecheck
-
   unit-integration-vitest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install deps
+      - name: Run vitest
         uses: actions/setup-node@v1
         with:
           node-version: "16"
       - run: npm install
-
-      - name: Run Vitest
       - run: npm test
-
   e2e-cypress:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - name: Run Cypress
-      - uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v4
