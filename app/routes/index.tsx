@@ -1,4 +1,5 @@
-import { Link, Form } from "@remix-run/react";
+import { Button } from "@chakra-ui/react";
+import { Form, Link } from "@remix-run/react";
 import { useOptionalUser } from "~/utils";
 
 export default function Index() {
@@ -11,13 +12,17 @@ export default function Index() {
           <>
             <p>You're logged in as {user.email}</p>
             <Form action="/logout" method="post">
-              <button type="submit">Logout</button>
+              <Button type="submit">Logout</Button>
             </Form>
           </>
         ) : (
           <div>
-            <Link to="/join">Sign up</Link>
-            <Link to="/login">Log In</Link>
+            <Button as={Link} to="/login" colorScheme="blue">
+              Log in
+            </Button>
+            <Button as={Link} to="/join">
+              Sign up
+            </Button>
           </div>
         )}
       </div>
