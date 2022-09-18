@@ -12,15 +12,17 @@ export default function Index() {
           <>
             <p>You're logged in as {user.email}</p>
             <Form action="/logout" method="post">
-              <Button type="submit">Logout</Button>
+              <Button type="submit" data-auth="signout">
+                Logout
+              </Button>
             </Form>
           </>
         ) : (
           <div>
-            <Button as={Link} to="/login" colorScheme="blue">
+            <Button as={Link} to="/login" data-auth="login" colorScheme="blue">
               Log in
             </Button>
-            <Button as={Link} to="/join">
+            <Button as={Link} to="/join" data-auth="signup">
               Sign up
             </Button>
           </div>
