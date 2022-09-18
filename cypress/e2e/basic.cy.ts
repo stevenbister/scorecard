@@ -1,16 +1,26 @@
-describe('empty spec', () => {
+describe("empty spec", () => {
   beforeEach(() => {
-    cy.visit('/')
-  })
+    cy.visit("/");
+  });
 
-  it("should allow you to register and login", () => {
+  it("should allow you to login", () => {
     const loginForm = {
-      email: 'test@example.com',
-      password: 'test1234!',
+      email: "test@example.com",
+      password: "test1234!",
     };
-    cy.findByRole("link", { name: /sign up/i }).click();
-    cy.findByRole("textbox", { name: /email/i }).type(loginForm.email);
-    cy.findByLabelText(/password/i).type(loginForm.password);
-    cy.findByRole("button", { name: /create account/i }).click();
-  })
-}) 
+
+    cy.intercept({
+      method: "GET",
+      url: "/login?_data=routes%2Flogin",
+    }).as("login");
+
+    cy.get('[data-auth="login"]').click();
+    cy.get('[type="email"]').type(loginForm.email);
+    cy.get('[type="password"]').type(loginForm.password);
+    cy.get('[type="submit"]').click();
+
+    cy.wait("@login");
+
+    cy.get("p").should("have.text", "You're logged in as test@example.com");
+  });
+});
