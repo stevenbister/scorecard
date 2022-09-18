@@ -1,0 +1,55 @@
+name: Tests CI
+
+# Controls when the workflow will run
+on: [push, workflow_dispatch]
+
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+  SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  static-eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run lint
+  static-typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run typecheck
+  unit-integration-vitest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run vitest
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - run: npm install
+      - run: npm test
+  e2e-cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: false
+      - name: Build
+        run: npm run build
+      - name: Run Cypress
+        uses: cypress-io/github-action@v4
+        with:
+          start: npm run dev
+          wait-on: "http://localhost:3000"
+        env:
+          PORT: "3000"
