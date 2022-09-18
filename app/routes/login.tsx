@@ -85,6 +85,9 @@ export default function Login() {
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
+  const emailIsInvalid = actionData?.errors?.email ? true : false;
+  const passwordIsInvalid = actionData?.errors?.password ? true : false;
+
   React.useEffect(() => {
     if (actionData?.errors?.email) {
       emailRef?.current?.focus();
@@ -98,10 +101,10 @@ export default function Login() {
   return (
     <div>
       <Form method="post" noValidate>
-        <FormControl>
+        <FormControl isInvalid={emailIsInvalid}>
           <FormLabel htmlFor="email">
             <span>Email Address</span>
-            {actionData?.errors?.email && (
+            {emailIsInvalid && (
               <FormErrorMessage id="email-error">
                 {actionData?.errors?.email}
               </FormErrorMessage>
@@ -113,17 +116,17 @@ export default function Login() {
             type="email"
             name="email"
             id="email"
-            aria-invalid={actionData?.errors?.email ? true : undefined}
+            aria-invalid={emailIsInvalid ? true : undefined}
             aria-describedby="email-error"
             ref={emailRef}
           />
         </FormControl>
 
-        <FormControl>
+        <FormControl isInvalid={passwordIsInvalid}>
           <FormLabel htmlFor="password">
             <span>Password</span>
             <FormHelperText>Must have at least 6 characters.</FormHelperText>
-            {actionData?.errors?.password && (
+            {passwordIsInvalid && (
               <FormErrorMessage id="password-error">
                 {actionData?.errors?.password}
               </FormErrorMessage>
@@ -135,7 +138,7 @@ export default function Login() {
             name="password"
             autoComplete=""
             className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
-            aria-invalid={actionData?.errors?.password ? true : undefined}
+            aria-invalid={passwordIsInvalid ? true : undefined}
             aria-describedby="password-error"
             ref={passwordRef}
           />
