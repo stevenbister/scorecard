@@ -42,6 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Install deps
         uses: actions/setup-node@v1
         with:
@@ -52,7 +53,7 @@ jobs:
       - run: npm run dev
 
       - name: Run Cypress
-        uses: cypress-io/github-action@v4
+      - uses: cypress-io/github-action@v4
         with:
           wait-on: "http://localhost:3000"
         env:
