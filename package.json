@@ -10,6 +10,7 @@
     "dev": "run-p dev:*",
     "dev:remix": "remix dev",
     "e2e-test": "cypress run",
+    "e2e-test:open": "cypress open",
     "format": "prettier --write .",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "ntl:ci": "netlify dev",

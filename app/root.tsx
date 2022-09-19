@@ -16,7 +16,10 @@ import { ClientStyleContext, ServerStyleContext } from "./context";
 import { getUser } from "./session.server";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return {
+    title: "New Remix App",
+    viewport: "width=device-width,initial-scale=1",
+  };
 };
 
 export let links: LinksFunction = () => {
