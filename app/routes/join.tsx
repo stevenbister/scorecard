@@ -14,7 +14,7 @@ import { createUserSession, getUserId } from "~/session.server";
 import { createUser, getProfileByEmail } from "~/models/user.server";
 import { validateEmail } from "~/utils";
 import * as React from "react";
-import type { AccountErrors } from "~/types";
+import type { Errors } from "~/types";
 
 export const meta: MetaFunction = () => {
   return {
@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
   };
 };
 
-type ActionData = AccountErrors;
+type ActionData = Errors;
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);

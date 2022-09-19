@@ -14,7 +14,7 @@ import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import React from "react";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
-import type { AccountErrors } from "~/types";
+import type { Errors } from "~/types";
 import { validateEmail } from "~/utils";
 
 export const meta: MetaFunction = () => {
@@ -23,7 +23,7 @@ export const meta: MetaFunction = () => {
   };
 };
 
-type ActionData = AccountErrors;
+type ActionData = Errors;
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
