@@ -37,8 +37,16 @@ interface DocumentProps {
   children: React.ReactNode;
 }
 
+type LoaderData = {
+  user?: {
+    email: string;
+    id: string;
+    name: string;
+  };
+};
+
 export async function loader({ request }: LoaderArgs) {
-  return json({
+  return json<LoaderData>({
     user: await getUser(request),
   });
 }
