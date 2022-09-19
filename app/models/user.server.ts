@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import invariant from "tiny-invariant";
+import type { UserProfile } from "~/types";
 
 export type User = { id: string; email: string };
 
@@ -46,6 +47,20 @@ export async function getProfileByEmail(email?: string) {
     .from("profiles")
     .select("email, id, name")
     .eq("email", email)
+    .single();
+
+  if (error) return null;
+  if (data) return data;
+}
+
+export async function updateProfileById(
+  id: FormDataEntryValue,
+  update: UserProfile
+) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update(update)
+    .eq("id", id)
     .single();
 
   if (error) return null;
