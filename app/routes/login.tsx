@@ -107,7 +107,6 @@ export default function Login() {
             )}
           </FormLabel>
           <Input
-            className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
             autoComplete="email"
             type="email"
             name="email"
