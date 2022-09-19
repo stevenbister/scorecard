@@ -10,7 +10,15 @@ export default function Index() {
       <div>
         {user ? (
           <>
-            <p>You're logged in as {user.email}</p>
+            <p>You're logged in as {user.name}</p>
+            <Button
+              as={Link}
+              to="/account"
+              colorScheme="blue"
+              data-auth="account"
+            >
+              Account
+            </Button>
             <Form action="/logout" method="post">
               <Button type="submit" data-auth="signout">
                 Logout

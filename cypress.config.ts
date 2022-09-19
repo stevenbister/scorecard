@@ -14,6 +14,10 @@ export default defineConfig({
         screenshotOnRunFailure: !process.env.CI,
       };
 
+      //   Set our environment variables
+      config.env.SUPABASE_URL = process.env.SUPABASE_URL;
+      config.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+
       // To use this:
       // cy.task('log', whateverYouWantInTheTerminal)
       on("task", {

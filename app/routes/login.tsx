@@ -14,6 +14,7 @@ import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import React from "react";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
+import type { Errors } from "~/types";
 import { validateEmail } from "~/utils";
 
 export const meta: MetaFunction = () => {
@@ -22,12 +23,7 @@ export const meta: MetaFunction = () => {
   };
 };
 
-interface ActionData {
-  errors: {
-    email?: string;
-    password?: string;
-  };
-}
+type ActionData = Errors;
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -111,7 +107,6 @@ export default function Login() {
             )}
           </FormLabel>
           <Input
-            className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
             autoComplete="email"
             type="email"
             name="email"
