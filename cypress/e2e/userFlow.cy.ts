@@ -42,7 +42,7 @@ describe("User flow", () => {
 
     cy.wait("@login");
 
-    cy.get("p").should("have.text", "You're logged in as test@example.com");
+    cy.get("p").should("have.text", "You're logged in as Test User");
     cy.getCookie("__session").should("exist");
   });
 
