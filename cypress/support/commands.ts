@@ -1,3 +1,5 @@
+import { createClient } from "@supabase/supabase-js";
+import testUser from "../fixtures/user.json";
 export {};
 
 declare global {
@@ -14,6 +16,18 @@ declare global {
        *    cy.login({ email: 'whatever@example.com' })
        */
       login: typeof login;
+
+      /**
+       * Logs in with a random user. Yields the user and adds an alias to the user
+       *
+       * @returns {typeof cleanUpUser}
+       * @memberof Chainable
+       * @example
+       *    cy.cleanUpUser()
+       * @example
+       *    cy.cleanUpUser()
+       */
+      cleanUpUser: typeof cleanUpUser;
 
       /**
        * Extends the standard visit command to wait for the page to load
@@ -48,6 +62,28 @@ function login() {
   cy.getCookie("__session").should("exist");
 }
 
+async function cleanUpUser() {
+  const supabaseUrl = Cypress.env("SUPABASE_URL");
+  const supabaseAnonKey = Cypress.env("SUPABASE_ANON_KEY");
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  Cypress.log({
+    name: "Restore user defaults",
+  });
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({
+      email: testUser.email,
+      name: testUser.name,
+    })
+    .eq("id", testUser.id)
+    .single();
+
+  if (error) console.error(error);
+  if (data) console.log({ "restored data": data });
+}
+
 // We're waiting a second because of this issue happen randomly
 // https://github.com/cypress-io/cypress/issues/7306
 // Also added custom types to avoid getting detached
@@ -60,3 +96,4 @@ function visitAndCheck(url: string, waitTime: number = 1000) {
 
 Cypress.Commands.add("login", login);
 Cypress.Commands.add("visitAndCheck", visitAndCheck);
+Cypress.Commands.add("cleanUpUser", cleanUpUser);
