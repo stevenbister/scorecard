@@ -10,13 +10,14 @@ export default defineConfig({
       const port = process.env.PORT ?? (isDev ? "3000" : "8811");
       const configOverrides: Partial<Cypress.PluginConfigOptions> = {
         baseUrl: `http://localhost:${port}`,
-        video: !process.env.CI,
+        video: false,
         screenshotOnRunFailure: !process.env.CI,
       };
 
       //   Set our environment variables
       config.env.SUPABASE_URL = process.env.SUPABASE_URL;
       config.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+      config.env.SUPABASE_SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE;
 
       // To use this:
       // cy.task('log', whateverYouWantInTheTerminal)
