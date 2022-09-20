@@ -1,5 +1,6 @@
 {
-  "id": "cccf442d-b548-49e1-a8ab-441e74ffd1d8",
-  "email": "test@example.com",
-  "name": "Test User"
+	"id": "a95c81fc-3f69-4c0b-90e4-d53a7fc73bef",
+	"email": "test@example.com",
+	"name": "Test User",
+	"password": "test1234!"
 }

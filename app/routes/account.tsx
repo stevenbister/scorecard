@@ -5,14 +5,22 @@ import {
   FormLabel,
   Heading,
   Input,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import type { ActionFunction, MetaFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
-import { updateProfileById } from "~/models/user.server";
+import { deleteUser, updateProfileById } from "~/models/user.server";
 import type { Errors, Status, UserProfile } from "~/types";
 import { useUser } from "~/utils";
 
@@ -29,6 +37,8 @@ export const action: ActionFunction = async ({ request }) => {
   const email = formData.get("email");
   const name = formData.get("name");
   const id = formData.get("id");
+  const _action = formData.get("_action");
+
   let status: Status = "PENDING";
 
   //  Ensure the user ID is present
@@ -45,24 +55,34 @@ export const action: ActionFunction = async ({ request }) => {
     });
   }
 
-  //  Update our user
-  const updateProfile = await updateProfileById(id, {
-    id,
-    email,
-    name,
-  });
+  //  Update our user profile
+  if (_action === "UPDATE") {
+    const updateProfile = await updateProfileById(id, {
+      id,
+      email,
+      name,
+    });
 
-  if (updateProfile) {
-    status = "SUCCESS";
+    if (updateProfile) {
+      status = "SUCCESS";
+    }
+
+    return json({ updateProfile, status: status });
   }
 
-  return json({ updateProfile, status: status });
+  // Delete user
+  if (_action === "DELETE") {
+    await deleteUser(String(id));
+
+    return redirect("/");
+  }
 };
 
 export default function Account() {
   const user = useUser();
   const actionData = useActionData() as ActionData;
   const [userName, setUserName] = useState(user.name);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const toastId: string = "success-toast";
 
@@ -138,17 +158,48 @@ export default function Account() {
             type="text"
             name="name"
             id="name"
-            value={userName}
+            value={userName ?? ""}
             onChange={(e) => handleChange(e, setUserName)}
           />
         </FormControl>
 
         <input type="hidden" id="id" name="id" value={user.id} />
+        <input type="hidden" id="update" name="_action" value="UPDATE" />
 
         <Button colorScheme="blue" type="submit">
           Update
         </Button>
       </Form>
+
+      {/* Delete our user */}
+      <Button colorScheme="red" onClick={onOpen}>
+        Delete account
+      </Button>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Are you sure you want to delete your account?
+          </ModalHeader>
+          <ModalCloseButton />
+
+          <ModalFooter>
+            <Form method="post" noValidate>
+              <input type="hidden" id="id" name="id" value={user.id} />
+              <input type="hidden" id="email" name="email" value={user.email} />
+              <input type="hidden" id="delete" name="_action" value="DELETE" />
+              <Button colorScheme="red" type="submit" data-delete="confirm">
+                Yes, delete my account
+              </Button>
+            </Form>
+
+            <Button onClick={onClose} data-delete="cancel">
+              No, don't delete my account
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }
