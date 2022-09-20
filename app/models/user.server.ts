@@ -49,7 +49,7 @@ export async function deleteUser(id: string) {
 
   if (profileError) {
     console.error(profileError);
-    throw new Response(profileError.message, { status: profileError.status });
+    throw new Response(profileError.message, { status: 500 });
   } else if (userError) {
     console.error(userError);
     throw new Response(userError.message, { status: userError.status });
