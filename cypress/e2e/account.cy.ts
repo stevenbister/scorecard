@@ -1,21 +1,27 @@
-describe("Account", () => {
-  beforeEach(() => {
-    cy.login();
-    cy.visit("/account");
-  });
+import { seedUser, cleanUpUser } from "../support/supabase";
 
-  after(async () => {
-    // Reset our test user data
-    await cy.cleanUpUser();
-  });
+before(async () => {
+  await seedUser();
+});
 
-  it("successfully navigates to the account page", () => {
-    cy.visit("/");
-    cy.get('[data-auth="account"]').click();
+beforeEach(() => {
+  cy.login();
+  cy.visit("/account");
+});
 
-    cy.get("h1").should("have.text", "Account");
-  });
+after(async () => {
+  // Reset our test user data
+  await cleanUpUser();
+});
 
+it("successfully navigates to the account page", () => {
+  cy.visit("/");
+  cy.get('[data-auth="account"]').click();
+
+  cy.get("h1").should("have.text", "Account");
+});
+
+describe("Updates account", () => {
   it("cannot update the email address", () => {
     cy.get('input[type="email"]')
       .type("test@example123.com", { force: true }) // force it as we want to avoit the error thrown for not being able to type
@@ -43,5 +49,32 @@ describe("Account", () => {
 
     cy.visit("/");
     cy.get("p").should("have.text", "You're logged in as Test User 123");
+  });
+});
+
+describe("Deletes account", () => {
+  it("successfully backs out of deleting the user account", () => {
+    cy.get('button[type="button"]').click();
+    cy.get(".chakra-modal__content").should("be.visible");
+    cy.get(".chakra-modal__header").should(
+      "have.text",
+      "Are you sure you want to delete your account?"
+    );
+
+    cy.get('button[data-delete="cancel"]').should("be.visible");
+    cy.get('button[data-delete="cancel"]').click();
+    cy.get(".chakra-modal__content").should("not.exist");
+  });
+
+  it("successfully deletes the user account", () => {
+    cy.get('button[type="button"]').click();
+    cy.get(".chakra-modal__content").should("be.visible");
+    cy.get(".chakra-modal__header").should(
+      "have.text",
+      "Are you sure you want to delete your account?"
+    );
+
+    cy.get('button[data-delete="confirm"]').should("be.visible");
+    cy.get('button[data-delete="confirm"]').click();
   });
 });
