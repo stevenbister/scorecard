@@ -72,7 +72,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   // Delete user
   if (_action === "DELETE") {
-    await deleteUser(id);
+    await deleteUser(String(id));
 
     return redirect("/");
   }

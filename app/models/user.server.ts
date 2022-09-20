@@ -36,7 +36,7 @@ export async function createUser(email: string, password: string) {
   return profile;
 }
 
-export async function deleteUser(id: FormDataEntryValue | string) {
+export async function deleteUser(id: string) {
   // First delete the profile associated with the user
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
