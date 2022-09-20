@@ -1,3 +1,10 @@
+import { seedUser, cleanUpUser } from "../support/supabase";
+
+before(async () => {
+  await seedUser();
+  await cleanUpUser();
+});
+
 describe("User flow", () => {
   beforeEach(() => {
     cy.visit("/");
