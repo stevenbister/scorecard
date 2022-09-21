@@ -29,13 +29,13 @@ export const meta: MetaFunction = () => {
   };
 };
 
-type ActionData = UserProfile | Status | Errors;
+type ActionData = Status | Errors;
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const email = formData.get("email");
-  const name = formData.get("name");
-  const id = formData.get("id");
+  const email = String(formData.get("email"));
+  const name = String(formData.get("name"));
+  const id = String(formData.get("id"));
   const _action = formData.get("_action");
 
   let status: Status = "PENDING";
