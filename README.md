@@ -30,6 +30,7 @@ Created with [Remix K-pop Stack](https://github.com/netlify-templates/kpop-stack
   ```
   SUPABASE_URL=""
   SUPABASE_ANON_KEY=""
+  SUPABASE_SERVICE_ROLE=""
   SESSION_SECRET=""
   ```
 
