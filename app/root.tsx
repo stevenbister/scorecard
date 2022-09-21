@@ -1,6 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { withEmotionCache } from "@emotion/react";
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { definitions } from "./types/supabase";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -38,11 +39,7 @@ interface DocumentProps {
 }
 
 type LoaderData = {
-  user?: {
-    email: string;
-    id: string;
-    name: string;
-  };
+  user?: definitions["profiles"] | null;
 };
 
 export async function loader({ request }: LoaderArgs) {

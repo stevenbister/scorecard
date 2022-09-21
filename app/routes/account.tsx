@@ -20,7 +20,7 @@ import { Form, useActionData } from "@remix-run/react";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { deleteUser, updateProfileById } from "~/models/user.server";
-import type { Errors, Status, UserProfile } from "~/types";
+import type { Errors, Status } from "~/types";
 import { useUser } from "~/utils";
 
 export const meta: MetaFunction = () => {
