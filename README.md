@@ -1,7 +1,5 @@
 # Scorecard
 
-# Scorecard
-
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f64c369f-8c18-4981-aeb6-673e4668b038/deploy-status)](https://app.netlify.com/sites/blissful-stonebraker-6d0265/deploys)
 
 [scorecard.stevenbister.com](https://scorecard.stevenbister.com)
@@ -32,6 +30,7 @@ Created with [Remix K-pop Stack](https://github.com/netlify-templates/kpop-stack
   ```
   SUPABASE_URL=""
   SUPABASE_ANON_KEY=""
+  SUPABASE_SERVICE_ROLE=""
   SESSION_SECRET=""
   ```
 
@@ -239,6 +238,12 @@ To other example of Cypress tests specifically on Remix stacks, check out the `c
 ### Type Checking
 
 This project uses TypeScript. It's recommended to get TypeScript set up for your editor to get a really great in-editor experience with type checking and auto-complete. To run type checking across the whole project, run `npm run typecheck`.
+
+#### Generating types
+
+Supabase generates an OpenAPI specification file for your database which can be used to generate your data types for usage with TypeScript. After you make a change to your database run `npm run typegen` to generate the types file at `./app/types/supabase.ts`
+
+For more information visit: [https://supabase.com/docs/guides/api/generating-types](https://supabase.com/docs/guides/api/generating-types).
 
 ### Linting
 

@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import invariant from "tiny-invariant";
-import type { UserProfile } from "~/types";
+import type { definitions, paths } from "~/types/supabase";
 
 export type User = { id: string; email: string };
 
@@ -39,7 +39,7 @@ export async function createUser(email: string, password: string) {
 export async function deleteUser(id: string) {
   // First delete the profile associated with the user
   const { data: profile, error: profileError } = await supabase
-    .from("profiles")
+    .from<definitions["profiles"]>("profiles")
     .delete()
     .match({ id: id });
   // Then delete the user from our table
@@ -62,7 +62,7 @@ export async function deleteUser(id: string) {
 
 export async function getProfileById(id: string) {
   const { data, error } = await supabase
-    .from("profiles")
+    .from<definitions["profiles"]>("profiles")
     .select("email, id, name")
     .eq("id", id)
     .single();
@@ -73,7 +73,7 @@ export async function getProfileById(id: string) {
 
 export async function getProfileByEmail(email?: string) {
   const { data, error } = await supabase
-    .from("profiles")
+    .from<definitions["profiles"]>("profiles")
     .select("email, id, name")
     .eq("email", email)
     .single();
@@ -83,11 +83,11 @@ export async function getProfileByEmail(email?: string) {
 }
 
 export async function updateProfileById(
-  id: FormDataEntryValue,
-  update: UserProfile
+  id: string,
+  update: paths["/profiles"]["patch"]["parameters"]["query"]
 ) {
   const { data, error } = await supabase
-    .from("profiles")
+    .from<definitions["profiles"]>("profiles")
     .update(update)
     .eq("id", id)
     .single();

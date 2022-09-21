@@ -10,11 +10,11 @@ import {
 import type { ActionFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { createUserSession, getUserId } from "~/session.server";
-import { createUser, getProfileByEmail } from "~/models/user.server";
-import { validateEmail } from "~/utils";
 import * as React from "react";
+import { createUser, getProfileByEmail } from "~/models/user.server";
+import { createUserSession, getUserId } from "~/session.server";
 import type { Errors } from "~/types";
+import { validateEmail } from "~/utils";
 
 export const meta: MetaFunction = () => {
   return {
@@ -72,9 +72,16 @@ export const action: ActionFunction = async ({ request }) => {
 
   const user = await createUser(email, password);
 
+  if (!user) {
+    return json<ActionData>(
+      { errors: { email: "Something went wrong! Failed to create the user." } },
+      { status: 500 }
+    );
+  }
+
   return createUserSession({
     request,
-    userId: user.id,
+    userId: user?.id,
     remember: false,
     redirectTo: typeof redirectTo === "string" ? redirectTo : "/",
   });
