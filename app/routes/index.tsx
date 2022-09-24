@@ -14,8 +14,8 @@ export default function Index() {
             <Button
               as={Link}
               to="/account"
-              colorScheme="blue"
               data-auth="account"
+              colorScheme="purple"
             >
               Account
             </Button>
@@ -27,7 +27,12 @@ export default function Index() {
           </>
         ) : (
           <div>
-            <Button as={Link} to="/login" data-auth="login" colorScheme="blue">
+            <Button
+              as={Link}
+              to="/login"
+              data-auth="login"
+              colorScheme="purple"
+            >
               Log in
             </Button>
             <Button as={Link} to="/join" data-auth="signup">
