@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+}
+
+.header__nav ul {
+  display: flex;
+}
+
+.header__control {
+  display: block;
+  padding: 1.2rem 1.5rem 0.75rem;
+  border-bottom: 3px solid var(--chakra-colors-chakra-border-color);
+}
+
+.header__control[aria-current="page"] {
+  border-bottom: 3px solid var(--chakra-colors-purple-700);
+  color: var(--chakra-colors-purple-700);
+}
