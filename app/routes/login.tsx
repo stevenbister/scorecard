@@ -1,12 +1,16 @@
 import {
   Button,
   Checkbox,
+  Container,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Heading,
+  Text,
   Input,
   Link as ChakraLink,
+  Stack,
 } from "@chakra-ui/react";
 import type { ActionFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
@@ -95,71 +99,85 @@ export default function Login() {
   }, [actionData]);
 
   return (
-    <div>
-      <Form method="post" noValidate>
-        <FormControl isInvalid={emailIsInvalid}>
-          <FormLabel htmlFor="email">
-            <span>Email Address</span>
-            {emailIsInvalid && (
-              <FormErrorMessage id="email-error">
-                {actionData?.errors?.email}
-              </FormErrorMessage>
-            )}
-          </FormLabel>
-          <Input
-            autoComplete="email"
-            type="email"
-            name="email"
-            id="email"
-            aria-invalid={emailIsInvalid ? true : undefined}
-            aria-describedby="email-error"
-            ref={emailRef}
-          />
-        </FormControl>
+    <Container>
+      <Stack as="main" pt={16}>
+        <Heading
+          as="h1"
+          size="3xl"
+          color="purple.800"
+          style={{ textAlign: "center" }}
+        >
+          Sign in
+        </Heading>
 
-        <FormControl isInvalid={passwordIsInvalid}>
-          <FormLabel htmlFor="password">
-            <span>Password</span>
-            <FormHelperText>Must have at least 6 characters.</FormHelperText>
-            {passwordIsInvalid && (
-              <FormErrorMessage id="password-error">
-                {actionData?.errors?.password}
-              </FormErrorMessage>
-            )}
-          </FormLabel>
-          <Input
-            id="password"
-            type="password"
-            name="password"
-            autoComplete=""
-            className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
-            aria-invalid={passwordIsInvalid ? true : undefined}
-            aria-describedby="password-error"
-            ref={passwordRef}
-          />
-        </FormControl>
+        <Stack pt={12} spacing={6}>
+          <Stack as={Form} method="post" noValidate spacing={4}>
+            <FormControl isInvalid={emailIsInvalid}>
+              <FormLabel htmlFor="email">
+                <Text as="b" color="purple.800">
+                  Email
+                </Text>
+                {emailIsInvalid && (
+                  <FormErrorMessage id="email-error">
+                    {actionData?.errors?.email}
+                  </FormErrorMessage>
+                )}
+              </FormLabel>
+              <Input
+                autoComplete="email"
+                type="email"
+                name="email"
+                id="email"
+                aria-invalid={emailIsInvalid ? true : undefined}
+                aria-describedby="email-error"
+                ref={emailRef}
+              />
+            </FormControl>
 
-        <Button colorScheme="blue" type="submit">
-          Log in
-        </Button>
+            <FormControl isInvalid={passwordIsInvalid}>
+              <FormLabel htmlFor="password">
+                <Text as="b" color="purple.800">
+                  Password
+                </Text>
+                <FormHelperText>
+                  Must have at least 6 characters.
+                </FormHelperText>
+                {passwordIsInvalid && (
+                  <FormErrorMessage id="password-error">
+                    {actionData?.errors?.password}
+                  </FormErrorMessage>
+                )}
+              </FormLabel>
+              <Input
+                id="password"
+                type="password"
+                name="password"
+                autoComplete=""
+                aria-invalid={passwordIsInvalid ? true : undefined}
+                aria-describedby="password-error"
+                ref={passwordRef}
+              />
+            </FormControl>
 
-        <input type="hidden" name="redirectTo" value={redirectTo} />
+            <FormControl>
+              <Checkbox
+                id="remember"
+                name="remember"
+                type="checkbox"
+                colorScheme="purple"
+              >
+                Remember me
+              </Checkbox>
+            </FormControl>
 
-        <div>
-          <FormControl>
-            <Checkbox id="remember" name="remember" type="checkbox">
-              Remember me
-            </Checkbox>
-          </FormControl>
+            <Button colorScheme="purple" type="submit">
+              Log in
+            </Button>
 
-          <div>
-            Don't have an account?{" "}
-            <ChakraLink as={Link} to={{ pathname: "/join" }}>
-              Sign up
-            </ChakraLink>
-          </div>
-        </div>
-      </Form>
-    </div>
+            <input type="hidden" name="redirectTo" value={redirectTo} />
+          </Stack>
+        </Stack>
+      </Stack>
+    </Container>
   );
 }
