@@ -25,7 +25,7 @@ import {
 
 export const meta: MetaFunction = () => {
   return {
-    title: "New Remix App",
+    title: "Scorecard",
     viewport: "width=device-width,initial-scale=1",
   };
 };

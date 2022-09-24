@@ -39,7 +39,7 @@ describe("Updates account", () => {
       .type("Test User 123")
       .should("have.value", "Test User 123");
 
-    cy.get('button[type="submit"]').click();
+    cy.get('form[action="/account"] button[type="submit"]').click();
 
     cy.wait("@updateProfile").its("response.statusCode").should("eq", 200);
 
@@ -48,7 +48,7 @@ describe("Updates account", () => {
       .and("have.text", "Profile updated.");
 
     cy.visit("/");
-    cy.get("p").should("have.text", "You're logged in as Test User 123");
+    cy.get("h1").should("have.text", "Scorecard");
   });
 });
 

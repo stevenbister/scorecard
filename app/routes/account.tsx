@@ -1,5 +1,6 @@
 import {
   Button,
+  Container,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -11,25 +12,46 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
+  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import type { ActionFunction, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { deleteUser, updateProfileById } from "~/models/user.server";
+import { getUser } from "~/session.server";
 import type { Errors, Status } from "~/types";
 import { useUser } from "~/utils";
+import styles from "~/styles/account.css";
 
 export const meta: MetaFunction = () => {
   return {
-    title: "Account",
+    title: "Account | Scorecard",
   };
 };
 
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
+
 type ActionData = Status | Errors;
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const user = await getUser(request);
+
+  if (!user) return redirect("/login");
+
+  return null;
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -123,82 +145,117 @@ export default function Account() {
   }, [actionData, isTypeError]);
 
   return (
-    <>
-      <Heading as="h1">Account</Heading>
+    <Container>
+      <Stack as="main" pt={16} className="account__container">
+        <Heading
+          as="h1"
+          size="3xl"
+          color="purple.800"
+          style={{ textAlign: "center" }}
+        >
+          Account
+        </Heading>
+        <Stack as={Form} method="post" noValidate spacing={4}>
+          <FormControl isInvalid={emailIsInvalid}>
+            <FormLabel>
+              <Text as="b" color="purple.800">
+                Email
+              </Text>
+              <FormHelperText>
+                Speak to your administrator if you want to update your email
+                address.
+              </FormHelperText>
+            </FormLabel>
+            <Input
+              autoComplete="email"
+              type="email"
+              name="email"
+              id="email"
+              aria-invalid={emailIsInvalid ? true : undefined}
+              aria-describedby="email-error"
+              ref={emailRef}
+              value={user.email}
+              readOnly
+            />
+          </FormControl>
 
-      <Heading as="h2">Update your details</Heading>
-      <Form method="post" noValidate>
-        <FormControl isInvalid={emailIsInvalid}>
-          <FormLabel>
-            <span>Email Address</span>
-            <FormHelperText>
-              Speak to your administrator if you want to update your email
-              address.
-            </FormHelperText>
-          </FormLabel>
-          <Input
-            autoComplete="email"
-            type="email"
-            name="email"
-            id="email"
-            aria-invalid={emailIsInvalid ? true : undefined}
-            aria-describedby="email-error"
-            ref={emailRef}
-            value={user.email}
-            readOnly
-          />
-        </FormControl>
+          <FormControl>
+            <FormLabel>
+              <Text as="b" color="purple.800">
+                Name
+              </Text>
+            </FormLabel>
+            <Input
+              type="text"
+              name="name"
+              id="name"
+              value={userName ?? ""}
+              onChange={(e) => handleChange(e, setUserName)}
+            />
+          </FormControl>
 
-        <FormControl>
-          <FormLabel>
-            <span>Name</span>
-          </FormLabel>
-          <Input
-            type="text"
-            name="name"
-            id="name"
-            value={userName ?? ""}
-            onChange={(e) => handleChange(e, setUserName)}
-          />
-        </FormControl>
+          <input type="hidden" id="id" name="id" value={user.id} />
+          <input type="hidden" id="update" name="_action" value="UPDATE" />
 
-        <input type="hidden" id="id" name="id" value={user.id} />
-        <input type="hidden" id="update" name="_action" value="UPDATE" />
+          <Button colorScheme="purple" type="submit">
+            Update
+          </Button>
+        </Stack>
 
-        <Button colorScheme="blue" type="submit">
-          Update
+        <Stack as={Form} action="/logout" method="post">
+          <Button type="submit" data-auth="signout">
+            Logout
+          </Button>
+        </Stack>
+
+        {/* Delete our user */}
+        <Button
+          colorScheme="red"
+          onClick={onOpen}
+          className="account__delete-button"
+        >
+          Delete account
         </Button>
-      </Form>
 
-      {/* Delete our user */}
-      <Button colorScheme="red" onClick={onOpen}>
-        Delete account
-      </Button>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>
+              Are you sure you want to delete your account?
+            </ModalHeader>
+            <ModalCloseButton />
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            Are you sure you want to delete your account?
-          </ModalHeader>
-          <ModalCloseButton />
+            <ModalFooter
+              as={Stack}
+              spacing={4}
+              style={{ alignItems: "flex-start" }}
+            >
+              <Form method="post" noValidate>
+                <input type="hidden" id="id" name="id" value={user.id} />
+                <input
+                  type="hidden"
+                  id="email"
+                  name="email"
+                  value={user.email}
+                />
+                <input
+                  type="hidden"
+                  id="delete"
+                  name="_action"
+                  value="DELETE"
+                />
+                <Button colorScheme="red" type="submit" data-delete="confirm">
+                  Yes, delete my account
+                </Button>
+              </Form>
 
-          <ModalFooter>
-            <Form method="post" noValidate>
-              <input type="hidden" id="id" name="id" value={user.id} />
-              <input type="hidden" id="email" name="email" value={user.email} />
-              <input type="hidden" id="delete" name="_action" value="DELETE" />
-              <Button colorScheme="red" type="submit" data-delete="confirm">
-                Yes, delete my account
+              <Button onClick={onClose} data-delete="cancel">
+                No, don't delete my account
               </Button>
-            </Form>
-
-            <Button onClick={onClose} data-delete="cancel">
-              No, don't delete my account
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Stack>
+    </Container>
   );
 }

@@ -1,0 +1,7 @@
+.account__container {
+  height: 85vh;
+}
+
+.account__container .account__delete-button {
+  margin-top: auto;
+}

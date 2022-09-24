@@ -49,13 +49,13 @@ describe("User flow", () => {
 
     cy.wait("@login");
 
-    cy.get("p").should("have.text", "You're logged in as Test User");
+    cy.get("h1").should("have.text", "Scorecard");
     cy.getCookie("__session").should("exist");
   });
 
   it("should log out the user", () => {
     cy.login();
-    cy.visitAndCheck("/");
+    cy.visitAndCheck("/account");
 
     cy.intercept({
       method: "GET",
