@@ -14,12 +14,17 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import type { ActionFunction, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { deleteUser, updateProfileById } from "~/models/user.server";
+import { getUser } from "~/session.server";
 import type { Errors, Status } from "~/types";
 import { useUser } from "~/utils";
 
@@ -30,6 +35,14 @@ export const meta: MetaFunction = () => {
 };
 
 type ActionData = Status | Errors;
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const user = await getUser(request);
+
+  if (!user) return redirect("/login");
+
+  return null;
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
