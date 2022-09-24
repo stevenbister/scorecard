@@ -1,16 +1,23 @@
-import { Button } from "@chakra-ui/react";
-import { Form, Link } from "@remix-run/react";
+import { Button, Container, Heading, Stack } from "@chakra-ui/react";
+import { Link } from "@remix-run/react";
 import { useOptionalUser } from "~/utils";
 
 export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <main>
-      <div>
+    <Container>
+      <Stack as="main" pt={32}>
+        <Heading
+          as="h1"
+          size="3xl"
+          color="purple.800"
+          style={{ textAlign: "center" }}
+        >
+          Scorecard
+        </Heading>
         {user ? (
-          <>
-            <p>You're logged in as {user.name}</p>
+          <Stack pt={16} spacing={6}>
             <Button
               as={Link}
               to="/account"
@@ -19,14 +26,9 @@ export default function Index() {
             >
               Account
             </Button>
-            <Form action="/logout" method="post">
-              <Button type="submit" data-auth="signout">
-                Logout
-              </Button>
-            </Form>
-          </>
+          </Stack>
         ) : (
-          <div>
+          <Stack pt={16} spacing={6}>
             <Button
               as={Link}
               to="/login"
@@ -35,12 +37,12 @@ export default function Index() {
             >
               Log in
             </Button>
-            <Button as={Link} to="/join" data-auth="signup">
+            <Button as={Link} to="/join" variant="outline" data-auth="signup">
               Sign up
             </Button>
-          </div>
+          </Stack>
         )}
-      </div>
-    </main>
+      </Stack>
+    </Container>
   );
 }
