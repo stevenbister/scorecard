@@ -7,14 +7,13 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
-  Text,
   Input,
-  Link as ChakraLink,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import type { ActionFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
+import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import React from "react";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
