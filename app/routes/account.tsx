@@ -188,6 +188,12 @@ export default function Account() {
         Delete account
       </Button>
 
+      <Form action="/logout" method="post">
+        <Button type="submit" data-auth="signout">
+          Logout
+        </Button>
+      </Form>
+
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
