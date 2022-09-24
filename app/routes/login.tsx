@@ -22,7 +22,7 @@ import { validateEmail } from "~/utils";
 
 export const meta: MetaFunction = () => {
   return {
-    title: "Login",
+    title: "Login | Scorecard",
   };
 };
 

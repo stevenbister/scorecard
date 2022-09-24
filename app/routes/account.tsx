@@ -35,7 +35,7 @@ import styles from "~/styles/account.css";
 
 export const meta: MetaFunction = () => {
   return {
-    title: "Account",
+    title: "Account | Scorecard",
   };
 };
 
