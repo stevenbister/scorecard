@@ -1,8 +1,7 @@
 import {
-  Box,
+  Link as ChakraLink,
   List,
   ListItem,
-  Link as ChakraLink,
   VisuallyHidden,
 } from "@chakra-ui/react";
 import type { LinksFunction } from "@remix-run/node";
