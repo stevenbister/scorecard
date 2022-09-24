@@ -10,12 +10,18 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from "@remix-run/react";
 import React, { useContext, useEffect } from "react";
 
 import { ClientStyleContext, ServerStyleContext } from "./context";
 import { getUser } from "./session.server";
 import Header, { links as headerLinks } from "./components/header";
+import {
+  Error,
+  StatusError,
+  links as exceptionBoundaryLinks,
+} from "./components/exceptionBoundary/Error";
 
 export const meta: MetaFunction = () => {
   return {
@@ -33,6 +39,7 @@ export let links: LinksFunction = () => {
       href: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap",
     },
     ...headerLinks(),
+    ...exceptionBoundaryLinks(),
   ];
 };
 
@@ -100,6 +107,32 @@ export default function App() {
       <ChakraProvider>
         <Header />
         <Outlet />
+      </ChakraProvider>
+    </Document>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return (
+    <Document>
+      <ChakraProvider>
+        <Header />
+        <StatusError status={caught.status} text={caught.statusText} />
+      </ChakraProvider>
+    </Document>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+
+  return (
+    <Document>
+      <ChakraProvider>
+        <Header />
+        <Error error={error} />
       </ChakraProvider>
     </Document>
   );
