@@ -1,4 +1,3 @@
-// @ts-nocheck -- until I can get the "Property 'toBe' does not exist on type" etc. errors sorted
 import { validateEmail } from "./utils";
 
 test("validateEmail returns false for non-emails", () => {
