@@ -135,7 +135,7 @@ You can add your environment variables to an `.env` file (like shown in the samp
 
   ![CleanShot 2022-03-31 at 11 59 29](https://user-images.githubusercontent.com/8431042/161098865-7c790cbc-db76-45b3-aa75-270af70038ae.png)
 
-- Here are the SQL queries used in the K-pop Stack
+- Here are the SQL queries used to generate the required tables
 
   ```sql
   -- Create public profile table that references our auth.user
@@ -177,6 +177,19 @@ You can add your environment variables to an `.env` file (like shown in the samp
   create trigger on_auth_user_created
     after insert on auth.users
     for each row execute procedure public.handle_new_user();
+
+  create table if not exists public.players (
+    id uuid not null,
+    user_id uuid references auth.users not null,
+    created_at timestamptz not null default current_timestamp,
+    player_name varchar,
+    games_played int8,
+    wins int8,
+    draws int8,
+    losses int8,
+
+    primary key (id)
+  );
   ```
 
 - You can copy these over to the SQL Editor and click the 'Run' button
