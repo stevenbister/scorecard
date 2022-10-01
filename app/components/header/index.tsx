@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import type { LinksFunction } from "@remix-run/node";
 import { NavLink } from "@remix-run/react";
-import { FaChessBoard, FaUserAstronaut } from "react-icons/fa";
+import { FaChessBoard, FaUserAstronaut, FaUsers } from "react-icons/fa";
 import styles from "./header.css";
 
 export const links: LinksFunction = () => {
@@ -22,6 +22,13 @@ export default function Header() {
             <ChakraLink as={NavLink} to="/" className="header__control">
               <VisuallyHidden>Home</VisuallyHidden>
               <FaChessBoard size={24} />
+            </ChakraLink>
+          </ListItem>
+
+          <ListItem>
+            <ChakraLink as={NavLink} to="/players" className="header__control">
+              <VisuallyHidden>Players</VisuallyHidden>
+              <FaUsers size={24} />
             </ChakraLink>
           </ListItem>
 
