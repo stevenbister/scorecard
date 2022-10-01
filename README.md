@@ -139,24 +139,31 @@ You can add your environment variables to an `.env` file (like shown in the samp
 
   ```sql
   -- Create public profile table that references our auth.user
-  create table public.profiles (
+  create table if not exists public.profiles (
     id uuid references auth.users not null,
     created_at timestamptz not null default current_timestamp,
     email varchar not null,
+    name varchar,
 
     primary key (id)
   );
 
-  -- Create public notes table
-  create table public.notes (
-    id uuid not null default uuid_generate_v4(),
-    title text,
-    body text,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp,
-    profile_id uuid references public.profiles not null,
+  create table if not exists public.players (
+      id uuid default uuid_generate_v4(),
+      user_id uuid references auth.users on delete cascade not null,
+      created_at timestamptz not null default current_timestamp,
+      player_name varchar,
 
-    primary key (id)
+      primary key (id)
+  );
+
+  create table if not exists public.game_stats (
+      user_id uuid references auth.users on delete cascade null,
+      player_id uuid references public.players on delete cascade null,
+      games_played int8,
+      wins int8,
+      draws int8,
+      losses int8
   );
 
   -- inserts a row into public.users
@@ -168,28 +175,39 @@ You can add your environment variables to an `.env` file (like shown in the samp
   begin
     insert into public.profiles (id, email)
     values (new.id, new.email);
+
+    insert into public.game_stats (user_id, player_id, games_played, wins, draws, losses)
+    values (new.id, null, 0, 0, 0, 0);
     return new;
   end;
   $$;
 
   -- trigger the function every time a user is created
-  drop trigger if exists on_auth_user_created on auth.user;
+  drop trigger if exists on_auth_user_created on auth.users;
   create trigger on_auth_user_created
     after insert on auth.users
     for each row execute procedure public.handle_new_user();
 
-  create table if not exists public.players (
-    id uuid not null,
-    user_id uuid references auth.users not null,
-    created_at timestamptz not null default current_timestamp,
-    player_name varchar,
-    games_played int8,
-    wins int8,
-    draws int8,
-    losses int8,
 
-    primary key (id)
-  );
+  -- inserts a row into public.game_stats
+  create or replace function public.handle_new_player()
+  returns trigger
+  language plpgsql
+  security definer set search_path = public
+  as $$
+  begin
+    insert into public.game_stats (user_id, player_id, games_played, wins, draws, losses)
+    values (null, new.id, 0, 0, 0, 0);
+    return new;
+  end;
+  $$;
+
+  -- trigger the function every time a player is created
+  drop trigger if exists on_player_created on public.players;
+  create trigger on_player_created
+    after insert on public.players
+    for each row execute procedure public.handle_new_player();
+
   ```
 
 - You can copy these over to the SQL Editor and click the 'Run' button
