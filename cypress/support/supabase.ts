@@ -60,3 +60,55 @@ export async function cleanUpUser() {
   if (error) console.error(error);
   if (data) console.log({ "restored data": data });
 }
+
+export async function seedPlayers() {
+  Cypress.log({
+    name: "Seed players",
+  });
+
+  // Find the seeded user ID so we can assign it to the players we seed
+  const userID = getUserID();
+
+  testPlayers.forEach(async (player) => {
+    console.log(`creating player ${player.name}...`);
+
+    const { data, error } = await supabase
+      .from<definitions["players"]>("players")
+      .insert({
+        player_name: player.name,
+      })
+      .single();
+
+    if (error) console.log(error);
+
+    if (data) {
+      console.log(`${player.name} seeded`);
+      return data;
+    }
+  });
+}
+
+export async function cleanUpPlayers() {
+  Cypress.log({
+    name: "Clean up players",
+  });
+
+  const userID = await getUserID();
+  const players = await getPlayers();
+
+  players?.forEach(async (player) => {
+    console.log(`removing player ${player.name} from db...`);
+
+    const { data, error } = await supabase
+      .from<definitions["players"]>("players")
+      .delete()
+      .match({ user_id: userID });
+
+    if (error) console.log(error);
+
+    if (data) {
+      console.log(`${player.name} removed`);
+      return data;
+    }
+  });
+}
