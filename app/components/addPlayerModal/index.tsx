@@ -14,13 +14,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useFetcher } from "@remix-run/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useUser } from "~/utils";
 
 export default function AddPlayerModal() {
   const user = useUser();
   const fetcher = useFetcher();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = useRef(null);
 
   useEffect(() => {
     // Close our modal once the form as submitted
@@ -33,7 +34,12 @@ export default function AddPlayerModal() {
     <>
       <Button onClick={onOpen}>Add new player</Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        initialFocusRef={initialRef}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add new player</ModalHeader>
@@ -46,7 +52,7 @@ export default function AddPlayerModal() {
                   Name
                 </Text>
               </FormLabel>
-              <Input type="text" name="name" id="name" />
+              <Input type="text" name="name" id="name" ref={initialRef} />
             </FormControl>
 
             <input type="hidden" id="id" name="id" value={user.id} />
