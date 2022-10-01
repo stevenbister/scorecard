@@ -22,6 +22,13 @@ after(async () => {
   await cleanUpPlayers();
 });
 
+it("successfully navigates to the players page", () => {
+  cy.visit("/");
+  cy.findByRole("link", { name: /players/i }).click();
+
+  cy.get("h1").should("have.text", "Players");
+});
+
 it("adds a new player", () => {
   cy.findByRole("button", {
     name: /add new player/i,
