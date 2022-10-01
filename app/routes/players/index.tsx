@@ -4,6 +4,7 @@ import type {
   LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import AddPlayerModal from "~/components/addPlayerModal";
@@ -31,7 +32,7 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
-  if (!user) throw new Response("User is not defined", { status: 500 });
+  if (!user) return redirect("/login");
 
   const players = await getAllPlayersByUserId(user.id);
 
