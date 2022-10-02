@@ -19,11 +19,29 @@ export const sessionStorage = createCookieSessionStorage({
   },
 });
 
+export const gameSessionStorage = createCookieSessionStorage({
+  cookie: {
+    name: "currentGame",
+    httpOnly: true,
+    maxAge: 60,
+    path: "/",
+    sameSite: "lax",
+    secrets: [process.env.SESSION_SECRET],
+    secure: process.env.NODE_ENV === "production",
+  },
+});
+
 const USER_SESSION_KEY = "userId";
+const GAME_SESSION_KEY = "gameId";
 
 export async function getSession(request: Request) {
   const cookie = request.headers.get("Cookie");
   return sessionStorage.getSession(cookie);
+}
+
+export async function getGameSession(request: Request) {
+  const cookie = request.headers.get("Cookie");
+  return gameSessionStorage.getSession(cookie);
 }
 
 export async function getUserId(request: Request) {
@@ -31,6 +49,13 @@ export async function getUserId(request: Request) {
   const userId = session.get(USER_SESSION_KEY);
 
   return userId;
+}
+
+export async function getGameId(request: Request) {
+  const session = await getGameSession(request);
+  const gameId = session.get(GAME_SESSION_KEY);
+
+  return gameId;
 }
 
 export async function getUser(request: Request) {
@@ -95,11 +120,41 @@ export async function createUserSession({
   });
 }
 
+export async function createGameSession({
+  request,
+  gameId,
+  redirectTo,
+}: {
+  request: Request;
+  gameId: string;
+  redirectTo: string;
+}) {
+  const session = await getGameSession(request);
+  session.set(GAME_SESSION_KEY, gameId);
+
+  return redirect(redirectTo, {
+    headers: {
+      "Set-Cookie": await gameSessionStorage.commitSession(session, {
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      }),
+    },
+  });
+}
+
 export async function logout(request: Request) {
   const session = await getSession(request);
   return redirect("/", {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),
+    },
+  });
+}
+
+export async function destroyGameSession(request: Request) {
+  const session = await getGameSession(request);
+  return redirect("/", {
+    headers: {
+      "Set-Cookie": await gameSessionStorage.destroySession(session),
     },
   });
 }

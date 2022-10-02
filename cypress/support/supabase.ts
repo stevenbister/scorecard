@@ -119,3 +119,23 @@ export async function cleanUpPlayers() {
     }
   });
 }
+
+export async function cleanUpGames() {
+  Cypress.log({
+    name: "Clean up games",
+  });
+
+  const userID = await getUserID();
+
+  const { data, error } = await supabase
+    .from<definitions["games"]>("games")
+    .delete()
+    .contains("players", [userID]);
+
+  if (error) console.log(error);
+
+  if (data) {
+    console.log(`Removed game ${data}`);
+    return data;
+  }
+}

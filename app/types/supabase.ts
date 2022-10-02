@@ -210,6 +210,105 @@ export interface paths {
       };
     };
   };
+  "/games": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.games.id"];
+          created_at?: parameters["rowFilter.games.created_at"];
+          players?: parameters["rowFilter.games.players"];
+          active?: parameters["rowFilter.games.active"];
+          winner?: parameters["rowFilter.games.winner"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["games"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** games */
+          games?: definitions["games"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.games.id"];
+          created_at?: parameters["rowFilter.games.created_at"];
+          players?: parameters["rowFilter.games.players"];
+          active?: parameters["rowFilter.games.active"];
+          winner?: parameters["rowFilter.games.winner"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.games.id"];
+          created_at?: parameters["rowFilter.games.created_at"];
+          players?: parameters["rowFilter.games.players"];
+          active?: parameters["rowFilter.games.active"];
+          winner?: parameters["rowFilter.games.winner"];
+        };
+        body: {
+          /** games */
+          games?: definitions["games"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/profiles": {
     get: {
       parameters: {
@@ -310,7 +409,11 @@ export interface paths {
 
 export interface definitions {
   game_stats: {
-    /** Format: uuid */
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
     user_id?: string;
     /**
      * Format: uuid
@@ -343,7 +446,30 @@ export interface definitions {
      */
     created_at: string;
     /** Format: character varying */
-    player_name: string;
+    player_name?: string;
+  };
+  games: {
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
+     */
+    id: string;
+    /**
+     * Format: timestamp with time zone
+     * @default CURRENT_TIMESTAMP
+     */
+    created_at: string;
+    /** Format: ARRAY */
+    players?: unknown[];
+    /**
+     * Format: boolean
+     * @default false
+     */
+    active: boolean;
+    /** Format: uuid */
+    winner?: string;
   };
   profiles: {
     /**
@@ -421,6 +547,18 @@ export interface parameters {
   "rowFilter.players.created_at": string;
   /** Format: character varying */
   "rowFilter.players.player_name": string;
+  /** @description games */
+  "body.games": definitions["games"];
+  /** Format: uuid */
+  "rowFilter.games.id": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.games.created_at": string;
+  /** Format: ARRAY */
+  "rowFilter.games.players": string;
+  /** Format: boolean */
+  "rowFilter.games.active": string;
+  /** Format: uuid */
+  "rowFilter.games.winner": string;
   /** @description profiles */
   "body.profiles": definitions["profiles"];
   /** Format: uuid */

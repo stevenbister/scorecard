@@ -16,7 +16,10 @@ after(async () => {
 
 it("successfully navigates to the account page", () => {
   cy.visit("/");
-  cy.get('[data-auth="account"]').click();
+
+  cy.findByRole("link", {
+    name: /account/i,
+  }).click();
 
   cy.get("h1").should("have.text", "Account");
 });
