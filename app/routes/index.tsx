@@ -19,6 +19,12 @@ export default function Index() {
         {user ? (
           <Stack pt={16} spacing={6}>
             <Form method="post" action="/game">
+              <input
+                type="hidden"
+                id="createGame"
+                name="_action"
+                value="CREATE_GAME"
+              />
               <Button type="submit" colorScheme="purple">
                 Start a game
               </Button>
