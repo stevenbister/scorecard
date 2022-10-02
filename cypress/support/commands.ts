@@ -28,6 +28,16 @@ declare global {
        *    cy.visitAndCheck('/', 500)
        */
       visitAndCheck: typeof visitAndCheck;
+
+      /**
+       * Extends the standard visit command to wait for the page to load
+       *
+       * @returns {typeof createGame}
+       * @memberof Chainable
+       * @example
+       *    cy.createGame()
+       */
+      createGame: typeof createGame;
     }
   }
 }
@@ -60,5 +70,23 @@ function visitAndCheck(url: string, waitTime: number = 1000) {
   cy.location("pathname").should("contain", url).wait(waitTime);
 }
 
+function createGame() {
+  Cypress.log({
+    name: "Create new game",
+  });
+
+  cy.request({
+    method: "POST",
+    url: "/game",
+    form: true,
+    body: {
+      _action: "CREATE_GAME",
+    },
+  });
+
+  cy.getCookie("currentGame").should("exist");
+}
+
 Cypress.Commands.add("login", login);
 Cypress.Commands.add("visitAndCheck", visitAndCheck);
+Cypress.Commands.add("createGame", createGame);
