@@ -1,5 +1,5 @@
 import { Button, Container, Heading, Stack } from "@chakra-ui/react";
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { useOptionalUser } from "~/utils";
 
 export default function Index() {
@@ -18,14 +18,11 @@ export default function Index() {
         </Heading>
         {user ? (
           <Stack pt={16} spacing={6}>
-            <Button
-              as={Link}
-              to="/account"
-              data-auth="account"
-              colorScheme="purple"
-            >
-              Account
-            </Button>
+            <Form method="post" action="/game">
+              <Button type="submit" colorScheme="purple">
+                Start a game
+              </Button>
+            </Form>
           </Stack>
         ) : (
           <Stack pt={16} spacing={6}>
