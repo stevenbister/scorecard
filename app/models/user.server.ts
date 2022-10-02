@@ -25,13 +25,14 @@ invariant(
 export const supabase = createClient(supabaseUrl, supabaseServiceRole);
 
 export async function createUser(email: string, password: string) {
-  const { user } = await supabase.auth.signUp({
+  const { user, error } = await supabase.auth.signUp({
     email,
     password,
   });
 
   // get the user profile after created
   const profile = await getProfileByEmail(user?.email);
+  if (error) console.log(error);
 
   return profile;
 }
@@ -63,11 +64,26 @@ export async function deleteUser(id: string) {
 export async function getProfileById(id: string) {
   const { data, error } = await supabase
     .from<definitions["profiles"]>("profiles")
-    .select("email, id, name")
+    .select(
+      `
+      email,
+      id,
+      name,
+      game_stats (
+        wins,
+        draws,
+        losses
+      )
+    `
+    )
     .eq("id", id)
     .single();
 
-  if (error) return null;
+  if (error) {
+    console.log(error);
+
+    return null;
+  }
   if (data) return data;
 }
 

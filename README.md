@@ -158,7 +158,7 @@ You can add your environment variables to an `.env` file (like shown in the samp
   );
 
   create table if not exists public.game_stats (
-      user_id uuid references auth.users on delete cascade null,
+      user_id uuid references public.profiles on delete cascade null,
       player_id uuid references public.players on delete cascade null,
       games_played int8,
       wins int8,

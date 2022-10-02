@@ -38,8 +38,14 @@ export async function seedUser() {
       email_confirm: true,
     });
 
+    // Seed the username
+    const { data: profile } = await supabase
+      .from("profiles")
+      .update({ name: testUser.name })
+      .eq("email", testUser.email);
+
     if (error) console.error(error);
-    if (data) console.log({ "Seeded user": data });
+    if (data) console.log({ "Seeded user": data, profile });
   }
 }
 
@@ -67,7 +73,7 @@ export async function seedPlayers() {
   });
 
   // Find the seeded user ID so we can assign it to the players we seed
-  const userID = getUserID();
+  const userID = await getUserID();
 
   testPlayers.forEach(async (player) => {
     console.log(`creating player ${player.name}...`);
@@ -75,6 +81,7 @@ export async function seedPlayers() {
     const { data, error } = await supabase
       .from<definitions["players"]>("players")
       .insert({
+        user_id: userID,
         player_name: player.name,
       })
       .single();

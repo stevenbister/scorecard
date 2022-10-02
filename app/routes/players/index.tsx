@@ -1,4 +1,4 @@
-import { Container, Heading, Stack } from "@chakra-ui/react";
+import { Container, Heading, List, ListItem, Stack } from "@chakra-ui/react";
 import type {
   ActionFunction,
   LoaderFunction,
@@ -87,11 +87,19 @@ export default function Players() {
           Players
         </Heading>
 
-        {Array.isArray(players)
-          ? players.map((player) => (
-              <PlayerCard key={player.id} player={player} />
-            ))
-          : null}
+        <Stack as={List} spacing={6}>
+          <ListItem>
+            <PlayerCard key={user.id} player={user} />
+          </ListItem>
+
+          {Array.isArray(players)
+            ? players.map((player) => (
+                <ListItem key={player.id}>
+                  <PlayerCard player={player} />
+                </ListItem>
+              ))
+            : null}
+        </Stack>
 
         <AddPlayerModal />
       </Stack>
