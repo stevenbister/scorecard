@@ -18,7 +18,9 @@ export async function addNewGame(user_id: string) {
 export async function getCurrentGame(id: string) {
   const { data, error } = await supabase
     .from<definitions["games"]>("games")
-    .select(id);
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (error) {
     console.log(error);
@@ -43,4 +45,24 @@ export async function endGame(id: string) {
     console.log(`Game ${id} ended!`);
     return data;
   }
+}
+
+export async function addPlayersToGame(
+  id: string,
+  {
+    user_id,
+    players,
+  }: { user_id: string; players: string[] | FormDataEntryValue[] }
+) {
+  const { data, error } = await supabase
+    .from<definitions["games"]>("games")
+    .update({ players: [user_id, ...players] })
+    .match({ id: id });
+
+  if (error) {
+    console.log(error);
+
+    throw new Response(error.message, { status: 500 });
+  }
+  if (data) return data;
 }
