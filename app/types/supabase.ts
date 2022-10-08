@@ -121,7 +121,7 @@ export interface paths {
           id?: parameters["rowFilter.players.id"];
           user_id?: parameters["rowFilter.players.user_id"];
           created_at?: parameters["rowFilter.players.created_at"];
-          player_name?: parameters["rowFilter.players.player_name"];
+          name?: parameters["rowFilter.players.name"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -175,7 +175,7 @@ export interface paths {
           id?: parameters["rowFilter.players.id"];
           user_id?: parameters["rowFilter.players.user_id"];
           created_at?: parameters["rowFilter.players.created_at"];
-          player_name?: parameters["rowFilter.players.player_name"];
+          name?: parameters["rowFilter.players.name"];
         };
         header: {
           /** Preference */
@@ -193,7 +193,7 @@ export interface paths {
           id?: parameters["rowFilter.players.id"];
           user_id?: parameters["rowFilter.players.user_id"];
           created_at?: parameters["rowFilter.players.created_at"];
-          player_name?: parameters["rowFilter.players.player_name"];
+          name?: parameters["rowFilter.players.name"];
         };
         body: {
           /** players */
@@ -446,7 +446,7 @@ export interface definitions {
      */
     created_at: string;
     /** Format: character varying */
-    player_name?: string;
+    name?: string;
   };
   games: {
     /**
@@ -546,7 +546,7 @@ export interface parameters {
   /** Format: timestamp with time zone */
   "rowFilter.players.created_at": string;
   /** Format: character varying */
-  "rowFilter.players.player_name": string;
+  "rowFilter.players.name": string;
   /** @description games */
   "body.games": definitions["games"];
   /** Format: uuid */

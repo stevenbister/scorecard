@@ -152,7 +152,7 @@ You can add your environment variables to an `.env` file (like shown in the samp
       id uuid default uuid_generate_v4(),
       user_id uuid references auth.users on delete cascade not null,
       created_at timestamptz not null default current_timestamp,
-      player_name varchar,
+      name varchar,
 
       primary key (id)
   );

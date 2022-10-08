@@ -1,7 +1,7 @@
 import { Avatar, chakra, Stack, Text, useCheckbox } from "@chakra-ui/react";
 
 export default function PlayerCheckbox(props: any) {
-  const { id, player_name } = props.player;
+  const { id, name } = props.player;
   const { state, getCheckboxProps, getInputProps, getLabelProps } =
     useCheckbox(props);
 
@@ -16,10 +16,10 @@ export default function PlayerCheckbox(props: any) {
     >
       <input {...getInputProps()} hidden name="player" value={id} />
       <Stack direction="row" alignItems="center" {...getCheckboxProps()}>
-        <Avatar name={player_name} size="md" />
+        <Avatar name={name} size="md" />
 
         <Text textAlign="center" {...getLabelProps()}>
-          {player_name}
+          {name}
         </Text>
       </Stack>
     </chakra.label>
