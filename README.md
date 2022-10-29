@@ -153,6 +153,7 @@ You can add your environment variables to an `.env` file (like shown in the samp
       user_id uuid references auth.users on delete cascade not null,
       created_at timestamptz not null default current_timestamp,
       name varchar,
+      game_id uuid references public.games on delete cascade null,
 
       primary key (id)
   );
@@ -178,15 +179,13 @@ You can add your environment variables to an `.env` file (like shown in the samp
 
     insert into public.game_stats (user_id, player_id, games_played, wins, draws, losses)
     values (new.id, null, 0, 0, 0, 0);
+
+    insert into public.players (id, user_id)
+    values(new.id, new.id);
+
     return new;
   end;
   $$;
-
-  -- trigger the function every time a user is created
-  drop trigger if exists on_auth_user_created on auth.users;
-  create trigger on_auth_user_created
-    after insert on auth.users
-    for each row execute procedure public.handle_new_user();
 
 
   -- inserts a row into public.game_stats
@@ -201,6 +200,22 @@ You can add your environment variables to an `.env` file (like shown in the samp
     return new;
   end;
   $$;
+
+  -- Creates game table
+  create table if not exists public.games (
+      id uuid default uuid_generate_v4(),
+      created_at timestamptz not null default current_timestamp,
+      active boolean not null default false,
+      winner uuid null,
+
+      primary key (id)
+  );
+
+  -- trigger the function every time a user is created
+  drop trigger if exists on_auth_user_created on auth.users;
+  create trigger on_auth_user_created
+    after insert on auth.users
+    for each row execute procedure public.handle_new_user();
 
   -- trigger the function every time a player is created
   drop trigger if exists on_player_created on public.players;

@@ -4,13 +4,12 @@ import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Form, Link, Outlet, useLoaderData, useParams } from "@remix-run/react";
 import PlayerDrawer from "~/components/playerDrawer";
+import { addNewGame, getCurrentGame } from "~/models/games.server";
 import {
-  addNewGame,
+  getAllPlayersByUserId,
   addPlayersToGame,
-  getCurrentGame,
   getPlayersInGame,
-} from "~/models/games.server";
-import { getAllPlayersByUserId } from "~/models/players.server";
+} from "~/models/players.server";
 import { createGameSession, getGameId, getUser } from "~/session.server";
 
 type LoaderData = {};
@@ -41,7 +40,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const _action = formData.get("_action");
-  const players = formData.getAll("player");
+  const player_id = String(formData.get("player"));
 
   const user = await getUser(request);
   if (!user) return redirect("/login");
@@ -64,7 +63,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (_action === "ADD_PLAYER") {
     const gameId = await getGameId(request);
 
-    await addPlayersToGame(gameId, { user_id: user.id, players: [...players] });
+    await addPlayersToGame({ player_id: player_id, game_id: gameId });
 
     return null;
   }

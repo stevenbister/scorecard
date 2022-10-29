@@ -75,3 +75,34 @@ export async function getPlayerById(id: string) {
   if (error) return null;
   if (data) return data;
 }
+
+export async function addPlayersToGame({
+  player_id,
+  game_id,
+}: {
+  player_id: string;
+  game_id: string;
+}) {
+  const { data, error: playersError } = await supabase
+    .from<definitions["players"]>("players")
+    .update({ game_id })
+    .eq("id", player_id);
+
+  if (playersError) {
+    console.log(playersError);
+
+    throw new Response(playersError.message, { status: 500 });
+  }
+
+  if (data) return data;
+}
+
+export async function getPlayersInGame(game_id: string) {
+  const { data, error } = await supabase
+    .from<definitions["players"]>("players")
+    .select("*")
+    .eq("game_id", game_id);
+
+  if (error) return null;
+  if (data) return data;
+}

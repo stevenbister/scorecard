@@ -1,12 +1,10 @@
 import type { definitions } from "~/types/supabase";
-import { getPlayerById } from "./players.server";
 import { supabase } from "./supabaseClient.server";
-import { getProfileById } from "./user.server";
 
 export async function addNewGame(user_id: string) {
-  const { data, error } = await supabase
+  const { data: game, error } = await supabase
     .from<definitions["games"]>("games")
-    .insert({ players: [user_id], active: true })
+    .insert({ active: true })
     .single();
 
   if (error) {
@@ -14,7 +12,21 @@ export async function addNewGame(user_id: string) {
 
     throw new Response(error.message, { status: 500 });
   }
-  if (data) return data;
+
+  // Add the current user to the game as soon as it starts
+  const { error: playerError } = await supabase
+    .from<definitions["players"]>("players")
+    .update({ game_id: game.id })
+    .eq("id", user_id) // if ID is equal to user ID
+    .single();
+
+  if (playerError) {
+    console.log(error);
+
+    throw new Response(playerError.message, { status: 500 });
+  }
+
+  if (game) return game;
 }
 
 export async function getAllActiveGameIds() {
@@ -62,66 +74,4 @@ export async function endGame(id: string) {
     console.log(`Game ${id} ended!`);
     return data;
   }
-}
-
-export async function addPlayersToGame(
-  id: string,
-  {
-    user_id,
-    players,
-  }: { user_id: string; players: string[] | FormDataEntryValue[] }
-) {
-  const { data, error } = await supabase
-    .from<definitions["games"]>("games")
-    .update({ players: [user_id, ...players] })
-    .match({ id: id });
-
-  if (error) {
-    console.log(error);
-
-    throw new Response(error.message, { status: 500 });
-  }
-  if (data) return data;
-}
-
-export async function getPlayersInGame(id: string) {
-  const { data, error } = await supabase
-    .from<definitions["games"]>("games")
-    .select("players")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    console.error(error);
-  }
-
-  const playersInGame: object[] = [];
-
-  await Promise.all(
-    // @ts-ignore -- wtf?
-    data?.players?.map(async (playerId: string) => {
-      try {
-        const u = await getProfileById(playerId); // user/profiles table
-        const p = await getPlayerById(playerId); // players table
-
-        if (u) {
-          // @ts-ignore -- want to dynamically add the score object and that doesn't exist in our db
-          u.score = 0;
-          playersInGame.push(u);
-        }
-
-        if (p) {
-          // @ts-ignore -- want to dynamically add the score object and that doesn't exist in our db
-          p.score = 0;
-          playersInGame.push(p);
-        }
-
-        return [p, u];
-      } catch (error) {
-        throw error;
-      }
-    })
-  );
-
-  return playersInGame;
 }

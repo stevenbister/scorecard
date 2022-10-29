@@ -122,6 +122,7 @@ export interface paths {
           user_id?: parameters["rowFilter.players.user_id"];
           created_at?: parameters["rowFilter.players.created_at"];
           name?: parameters["rowFilter.players.name"];
+          game_id?: parameters["rowFilter.players.game_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -176,6 +177,7 @@ export interface paths {
           user_id?: parameters["rowFilter.players.user_id"];
           created_at?: parameters["rowFilter.players.created_at"];
           name?: parameters["rowFilter.players.name"];
+          game_id?: parameters["rowFilter.players.game_id"];
         };
         header: {
           /** Preference */
@@ -194,6 +196,7 @@ export interface paths {
           user_id?: parameters["rowFilter.players.user_id"];
           created_at?: parameters["rowFilter.players.created_at"];
           name?: parameters["rowFilter.players.name"];
+          game_id?: parameters["rowFilter.players.game_id"];
         };
         body: {
           /** players */
@@ -216,7 +219,6 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.games.id"];
           created_at?: parameters["rowFilter.games.created_at"];
-          players?: parameters["rowFilter.games.players"];
           active?: parameters["rowFilter.games.active"];
           winner?: parameters["rowFilter.games.winner"];
           /** Filtering Columns */
@@ -271,7 +273,6 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.games.id"];
           created_at?: parameters["rowFilter.games.created_at"];
-          players?: parameters["rowFilter.games.players"];
           active?: parameters["rowFilter.games.active"];
           winner?: parameters["rowFilter.games.winner"];
         };
@@ -290,7 +291,6 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.games.id"];
           created_at?: parameters["rowFilter.games.created_at"];
-          players?: parameters["rowFilter.games.players"];
           active?: parameters["rowFilter.games.active"];
           winner?: parameters["rowFilter.games.winner"];
         };
@@ -447,6 +447,12 @@ export interface definitions {
     created_at: string;
     /** Format: character varying */
     name?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `games.id`.<fk table='games' column='id'/>
+     */
+    game_id?: string;
   };
   games: {
     /**
@@ -461,8 +467,6 @@ export interface definitions {
      * @default CURRENT_TIMESTAMP
      */
     created_at: string;
-    /** Format: ARRAY */
-    players?: unknown[];
     /**
      * Format: boolean
      * @default false
@@ -547,14 +551,14 @@ export interface parameters {
   "rowFilter.players.created_at": string;
   /** Format: character varying */
   "rowFilter.players.name": string;
+  /** Format: uuid */
+  "rowFilter.players.game_id": string;
   /** @description games */
   "body.games": definitions["games"];
   /** Format: uuid */
   "rowFilter.games.id": string;
   /** Format: timestamp with time zone */
   "rowFilter.games.created_at": string;
-  /** Format: ARRAY */
-  "rowFilter.games.players": string;
   /** Format: boolean */
   "rowFilter.games.active": string;
   /** Format: uuid */
