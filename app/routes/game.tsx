@@ -57,7 +57,7 @@ export const action: ActionFunction = async ({ request }) => {
     return createGameSession({
       request,
       gameId: game.id,
-      redirectTo: "/game",
+      redirectTo: `/game/${game.id}`,
     });
   }
 
