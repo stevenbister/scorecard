@@ -9,7 +9,7 @@ export async function addNewPlayer({ id, name }: { id: string; name: string }) {
     .insert([
       {
         user_id: id,
-        player_name: name,
+        name: name,
       },
     ])
     .single();

@@ -14,15 +14,15 @@ interface Props {
 export default function PlayerCard({ player }: Props) {
   const fetcher = useFetcher();
   const user = useUser();
-  const { name, player_name, game_stats } = player;
+  const { name, game_stats } = player;
 
   const isCurrentUser = user.id === player.id ? true : false;
 
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
       <Stack spacing={1}>
-        <Avatar name={player_name ? player_name : name} size="lg" />
-        <Text textAlign="center">{player_name ? player_name : name}</Text>
+        <Avatar name={name} size="lg" />
+        <Text textAlign="center">{name}</Text>
       </Stack>
 
       <Stack>

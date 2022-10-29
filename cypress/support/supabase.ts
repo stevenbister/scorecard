@@ -82,7 +82,7 @@ export async function seedPlayers() {
       .from<definitions["players"]>("players")
       .insert({
         user_id: userID,
-        player_name: player.name,
+        name: player.name,
       })
       .single();
 
