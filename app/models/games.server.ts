@@ -15,6 +15,21 @@ export async function addNewGame(user_id: string) {
   if (data) return data;
 }
 
+export async function getAllActiveGameIds() {
+  const { data, error } = await supabase
+    .from<definitions["games"]>("games")
+    .select("id")
+    .eq("active", true);
+
+  if (error) {
+    console.error(error);
+
+    throw new Response(error.message, { status: 500 });
+  }
+
+  if (data) return data;
+}
+
 export async function getCurrentGame(id: string) {
   const { data, error } = await supabase
     .from<definitions["games"]>("games")
