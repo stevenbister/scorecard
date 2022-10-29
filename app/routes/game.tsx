@@ -2,12 +2,13 @@ import { Button } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, Link, Outlet, useLoaderData, useParams } from "@remix-run/react";
 import PlayerDrawer from "~/components/playerDrawer";
 import {
   addNewGame,
   addPlayersToGame,
   getCurrentGame,
+  getPlayersInGame,
 } from "~/models/games.server";
 import { getAllPlayersByUserId } from "~/models/players.server";
 import { createGameSession, getGameId, getUser } from "~/session.server";
@@ -21,16 +22,19 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!user) return redirect("/login");
   if (!gameId) return redirect("/");
 
-  console.log(gameId);
-
   const currentGame = await getCurrentGame(gameId);
+  if (!currentGame) return redirect("/");
 
-  const players = await getAllPlayersByUserId(user.id);
-  if (!players) return;
+  const allSavedPlayers = await getAllPlayersByUserId(user.id);
+  if (!allSavedPlayers) return;
+
+  const playersInGame = await getPlayersInGame(gameId);
+  if (!playersInGame) return;
 
   return json<LoaderData>({
-    players,
+    allSavedPlayers,
     currentGame,
+    playersInGame,
   });
 };
 
@@ -67,11 +71,20 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Game() {
-  const { players, currentGame } = useLoaderData();
+  const { allSavedPlayers, currentGame, playersInGame } = useLoaderData();
+  const params = useParams();
+
   return (
     <>
-      <pre>{JSON.stringify(currentGame, null, 4)}</pre>
-      <PlayerDrawer players={players} playersInGame={currentGame.players} />
+      <Outlet />
+
+      {params.id ? null : (
+        <Link to={`/game/${currentGame.id}`}>Start Game</Link>
+      )}
+
+      <hr />
+
+      <PlayerDrawer players={allSavedPlayers} playersInGame={playersInGame} />
 
       <Form action="/game/end-game" method="post">
         <Button type="submit">End Game</Button>
