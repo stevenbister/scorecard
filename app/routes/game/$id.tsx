@@ -1,6 +1,7 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { json } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
 import { getAllActiveGameIds } from "~/models/games.server";
@@ -30,8 +31,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function GameID() {
   const user = useUser();
   const players = usePlayers();
+  const fetcher = useFetcher();
   const [activePlayer, setActivePlayer] = useState(user.id); // default to the current user
-  const [score, setScore] = useState(0);
 
   const handleActivePlayerChange = (v: string) => {
     setActivePlayer(v);
@@ -42,19 +43,34 @@ export default function GameID() {
 
     const scoreArr = stringToArray(removeNewLine(value));
     const total = sumArray(arrayValuesToNumbers(scoreArr));
-    setScore(total || 0);
+
+    fetcher.submit(
+      {
+        activePlayer,
+        score: String(total),
+      },
+      {
+        method: "post",
+        action: `/players/${activePlayer}`,
+      }
+    );
+
+    console.log(fetcher.data);
   };
 
   return (
     <>
       <SimpleGrid columns={2}>
-        <div>
+        <fetcher.Form>
           <ScoreInput
             activePlayer={activePlayer}
             onChange={handleScoreChange}
           />
-          <ScoreTotal activePlayer={activePlayer} score={score} />
-        </div>
+          <ScoreTotal
+            activePlayer={activePlayer}
+            score={fetcher?.data ? fetcher.data?.score : 0}
+          />
+        </fetcher.Form>
 
         <PlayerList
           players={players}
