@@ -55,3 +55,23 @@ export async function getAllPlayersByUserId(id: string) {
   if (error) return null;
   if (data) return data;
 }
+
+export async function getPlayerById(id: string) {
+  const { data, error } = await supabase
+    .from<definitions["players"]>("players")
+    .select(
+      `
+    *,
+    game_stats (
+      wins,
+      draws,
+      losses
+    )
+  `
+    )
+    .eq("id", id)
+    .single();
+
+  if (error) return null;
+  if (data) return data;
+}
