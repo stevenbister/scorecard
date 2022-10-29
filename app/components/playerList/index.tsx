@@ -1,5 +1,4 @@
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import { useFetcher } from "@remix-run/react";
 import type { definitions } from "~/types/supabase";
 
 interface Props {
@@ -9,10 +8,8 @@ interface Props {
 }
 
 export default function PlayerList({ players, activePlayer, onChange }: Props) {
-  const fetcher = useFetcher();
-
   return (
-    <Stack as={fetcher.Form}>
+    <Stack>
       <RadioGroup onChange={onChange} value={activePlayer}>
         {Array.isArray(players) && players.length > 0
           ? players.map((player) => {

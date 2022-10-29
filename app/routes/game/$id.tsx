@@ -31,7 +31,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function GameID() {
   const user = useUser();
   const players = usePlayers();
-  const fetcher = useFetcher();
+  const scoreFetcher = useFetcher();
   const [activePlayer, setActivePlayer] = useState(user.id); // default to the current user
 
   const handleActivePlayerChange = (v: string) => {
@@ -44,7 +44,7 @@ export default function GameID() {
     const scoreArr = stringToArray(removeNewLine(value));
     const total = sumArray(arrayValuesToNumbers(scoreArr));
 
-    fetcher.submit(
+    scoreFetcher.submit(
       {
         activePlayer,
         score: String(total),
@@ -54,28 +54,27 @@ export default function GameID() {
         action: `/players/${activePlayer}`,
       }
     );
-
-    console.log(fetcher.data);
   };
 
   return (
     <>
       <SimpleGrid columns={2}>
-        <fetcher.Form>
+        <scoreFetcher.Form>
           <ScoreInput
             activePlayer={activePlayer}
             onChange={handleScoreChange}
           />
-          <ScoreTotal
-            activePlayer={activePlayer}
-            score={fetcher?.data ? fetcher.data?.score : 0}
-          />
-        </fetcher.Form>
 
-        <PlayerList
-          players={players}
+          <PlayerList
+            players={players}
+            activePlayer={activePlayer}
+            onChange={handleActivePlayerChange}
+          />
+        </scoreFetcher.Form>
+
+        <ScoreTotal
           activePlayer={activePlayer}
-          onChange={handleActivePlayerChange}
+          score={scoreFetcher?.data ? scoreFetcher.data?.score : 0}
         />
       </SimpleGrid>
     </>
