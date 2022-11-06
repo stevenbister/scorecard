@@ -1,25 +1,16 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import { json } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import type { ChangeEvent } from "react";
+import { json } from "@remix-run/node";
 import { useState } from "react";
-import { getAllActiveGameIds } from "~/models/games.server";
-import {
-  arrayValuesToNumbers,
-  removeNewLine,
-  stringToArray,
-  sumArray,
-  usePlayers,
-  useUser,
-} from "~/utils";
 import PlayerList from "~/components/playerList";
-import ScoreInput from "~/components/Score/ScoreInput";
-import ScoreTotal from "~/components/Score/ScoreTotal";
+import Score from "~/components/Score";
+import { getAllActiveGameIds } from "~/models/games.server";
+import type { definitions } from "~/types/supabase";
+import { usePlayers, useUser } from "~/utils";
 
 type LoaderData = {};
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader: LoaderFunction = async ({ params }) => {
   const activeGames = await getAllActiveGameIds();
   const isLiveGame = activeGames?.find((game) => game.id === params.id);
 
@@ -31,51 +22,23 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function GameID() {
   const user = useUser();
   const players = usePlayers();
-  const scoreFetcher = useFetcher();
   const [activePlayer, setActivePlayer] = useState(user.id); // default to the current user
 
-  const handleActivePlayerChange = (v: string) => {
-    setActivePlayer(v);
-  };
-
-  const handleScoreChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target;
-
-    const scoreArr = stringToArray(removeNewLine(value));
-    const total = sumArray(arrayValuesToNumbers(scoreArr));
-
-    scoreFetcher.submit(
-      {
-        activePlayer,
-        score: String(total),
-      },
-      {
-        method: "post",
-        action: `/players/${activePlayer}`,
-      }
-    );
-  };
+  const handleActivePlayerChange = (playerId: string) =>
+    setActivePlayer(playerId);
 
   return (
     <>
+      <PlayerList
+        players={players}
+        activePlayer={activePlayer}
+        onChange={handleActivePlayerChange}
+      />
+
       <SimpleGrid columns={2}>
-        <scoreFetcher.Form>
-          <ScoreInput
-            activePlayer={activePlayer}
-            onChange={handleScoreChange}
-          />
-
-          <PlayerList
-            players={players}
-            activePlayer={activePlayer}
-            onChange={handleActivePlayerChange}
-          />
-        </scoreFetcher.Form>
-
-        <ScoreTotal
-          activePlayer={activePlayer}
-          score={scoreFetcher?.data ? scoreFetcher.data?.score : 0}
-        />
+        {players.map((player: definitions["players"]) => (
+          <Score player={player} key={player.id} />
+        ))}
       </SimpleGrid>
     </>
   );
