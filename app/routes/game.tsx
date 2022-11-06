@@ -2,7 +2,15 @@ import { Button } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, Link, Outlet, useLoaderData, useParams } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  Outlet,
+  useLoaderData,
+  useParams,
+  useSubmit,
+} from "@remix-run/react";
+import type { FormEvent } from "react";
 import PlayerDrawer from "~/components/playerDrawer";
 import { addNewGame, getCurrentGame } from "~/models/games.server";
 import {
@@ -72,6 +80,36 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Game() {
   const { allSavedPlayers, currentGame, playersInGame } = useLoaderData();
   const params = useParams();
+  const submit = useSubmit();
+
+  const handleEndGame = (e: FormEvent) => {
+    e.preventDefault();
+
+    const storedPlayers = [];
+
+    for (const player of playersInGame) {
+      const storedPlayer = window && localStorage.getItem(player.id);
+
+      if (storedPlayer) {
+        const storedPlayerJSON = JSON.parse(storedPlayer);
+
+        storedPlayers.push(storedPlayerJSON);
+      }
+
+      window && localStorage.removeItem(player.id);
+    }
+
+    const winner = storedPlayers.reduce((acc, obj) => {
+      if (!acc) {
+        return null;
+      }
+
+      return acc.score > obj.score ? acc : obj;
+    });
+
+    // Clean up our localStorage
+    submit(winner, { method: "post", action: "/game/end-game" });
+  };
 
   return (
     <>
@@ -85,7 +123,7 @@ export default function Game() {
 
       <PlayerDrawer players={allSavedPlayers} playersInGame={playersInGame} />
 
-      <Form action="/game/end-game" method="post">
+      <Form onSubmit={handleEndGame}>
         <Button type="submit">End Game</Button>
       </Form>
     </>

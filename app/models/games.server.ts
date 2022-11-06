@@ -59,6 +59,20 @@ export async function getCurrentGame(id: string) {
   if (data) return data;
 }
 
+export async function setWinner(game_id: string, winner_id: string) {
+  const { data, error } = await supabase
+    .from<definitions["games"]>("games")
+    .update({ winner: winner_id })
+    .match({ id: game_id });
+
+  if (error) {
+    console.error(error);
+    throw new Response(error.message, { status: 500 });
+  }
+
+  if (data) return data;
+}
+
 export async function endGame(id: string) {
   const { data, error } = await supabase
     .from<definitions["games"]>("games")

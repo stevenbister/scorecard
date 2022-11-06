@@ -16,7 +16,7 @@ interface Props {
 
 export default function Score({ player }: Props) {
   const [score, setScore] = useLocalStorageState(player.id, {
-    defaultValue: { input: "", score: 0 },
+    defaultValue: { id: player.id, input: "", score: 0 },
   });
 
   const handleScoreChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -26,6 +26,7 @@ export default function Score({ player }: Props) {
     const total = sumArray(arrayValuesToNumbers(scoreArr));
 
     setScore({
+      id: player.id,
       input: value,
       score: total,
     });
