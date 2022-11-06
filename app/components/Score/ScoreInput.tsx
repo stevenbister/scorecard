@@ -3,19 +3,16 @@ import type { ChangeEventHandler } from "react";
 import type { definitions } from "~/types/supabase";
 
 interface Props {
-  activePlayer: definitions["players"]["id"] | definitions["profiles"]["id"];
+  player: definitions["players"]["id"] | definitions["profiles"]["id"];
+  value: string;
   onChange?: ChangeEventHandler;
 }
 
-export default function ScoreInput({ activePlayer, onChange }: Props) {
+export default function ScoreInput({ player, value, onChange }: Props) {
   return (
     <div>
-      {activePlayer}
-      <Textarea
-        resize="vertical"
-        onChange={onChange}
-        data-active-player={activePlayer}
-      />
+      {player}
+      <Textarea resize="vertical" onChange={onChange} value={value} />
     </div>
   );
 }
