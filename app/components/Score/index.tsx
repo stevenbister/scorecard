@@ -33,11 +33,7 @@ export default function Score({ player }: Props) {
 
   return (
     <div key={player.id}>
-      <ScoreInput
-        player={player.id}
-        value={score.input}
-        onChange={handleScoreChange}
-      />
+      <ScoreInput value={score.input} onChange={handleScoreChange} />
 
       <ScoreTotal score={score.score} />
     </div>
