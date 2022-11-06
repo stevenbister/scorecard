@@ -43,7 +43,11 @@ export default function GameID() {
       {players.map((player: definitions["players"]) => (
         <GridItem
           key={player.id}
-          style={activePlayer === player.id ? { opacity: 1 } : { opacity: 0 }}
+          style={
+            activePlayer === player.id
+              ? { opacity: 1, visibility: "visible" }
+              : { opacity: 0, visibility: "hidden" }
+          }
           area="playerCards"
         >
           <Score player={player} />
