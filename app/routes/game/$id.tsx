@@ -1,4 +1,4 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useState } from "react";
@@ -28,18 +28,27 @@ export default function GameID() {
     setActivePlayer(playerId);
 
   return (
-    <>
+    <Grid
+      templateAreas={`
+        "playerList"
+        "playerCards"
+      `}
+    >
       <PlayerList
         players={players}
         activePlayer={activePlayer}
         onChange={handleActivePlayerChange}
       />
 
-      <SimpleGrid columns={2}>
-        {players.map((player: definitions["players"]) => (
-          <Score player={player} key={player.id} />
-        ))}
-      </SimpleGrid>
-    </>
+      {players.map((player: definitions["players"]) => (
+        <GridItem
+          key={player.id}
+          style={activePlayer === player.id ? { opacity: 1 } : { opacity: 0 }}
+          area="playerCards"
+        >
+          <Score player={player} />
+        </GridItem>
+      ))}
+    </Grid>
   );
 }
