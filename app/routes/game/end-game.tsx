@@ -6,10 +6,14 @@ import { destroyGameSession, getGameId } from "~/session.server";
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const winnerId = String(formData.get("id"));
+  const score = Number(formData.get("score"));
 
   const gameId = await getGameId(request);
 
-  await setWinner(gameId, winnerId);
+  if (score > 0) {
+    await setWinner(gameId, winnerId);
+  }
+
   await endGame(gameId);
 
   return destroyGameSession(request);
