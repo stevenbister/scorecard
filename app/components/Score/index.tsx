@@ -1,3 +1,4 @@
+import { Stack } from "@chakra-ui/react";
 import type { ChangeEvent } from "react";
 import useLocalStorageState from "use-local-storage-state";
 import type { definitions } from "~/types/supabase";
@@ -33,10 +34,10 @@ export default function Score({ player }: Props) {
   };
 
   return (
-    <div key={player.id}>
+    <Stack key={player.id} height="100%" pt="24px">
       <ScoreInput value={score.input} onChange={handleScoreChange} />
 
       <ScoreTotal score={score.score} />
-    </div>
+    </Stack>
   );
 }

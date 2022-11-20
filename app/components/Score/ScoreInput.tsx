@@ -7,5 +7,7 @@ interface Props {
 }
 
 export default function ScoreInput({ value, onChange }: Props) {
-  return <Textarea resize="vertical" onChange={onChange} value={value} />;
+  return (
+    <Textarea height="100%" resize="none" onChange={onChange} value={value} />
+  );
 }

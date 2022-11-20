@@ -5,5 +5,5 @@ interface Props {
 }
 
 export default function Score({ score }: Props) {
-  return <Text>Score: {score}</Text>;
+  return <Text px={4}>Score: {score}</Text>;
 }

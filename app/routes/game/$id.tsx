@@ -30,9 +30,9 @@ export default function GameID() {
   return (
     <Grid
       templateAreas={`
-        "playerList"
-        "playerCards"
+      "playerCards playerList"
       `}
+      gap="4"
     >
       <PlayerList
         players={players}

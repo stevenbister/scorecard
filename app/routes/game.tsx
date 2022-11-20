@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Container, Stack } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
@@ -113,20 +113,22 @@ export default function Game() {
   };
 
   return (
-    <>
-      <Outlet />
+    <Container>
+      <Stack spacing={6}>
+        <Outlet />
 
-      {params.id ? null : (
-        <Link to={`/game/${currentGame.id}`}>Start Game</Link>
-      )}
+        {params.id ? null : (
+          <Link to={`/game/${currentGame.id}`}>Start Game</Link>
+        )}
 
-      <hr />
+        <PlayerDrawer players={allSavedPlayers} playersInGame={playersInGame} />
 
-      <PlayerDrawer players={allSavedPlayers} playersInGame={playersInGame} />
-
-      <Form onSubmit={handleEndGame}>
-        <Button type="submit">End Game</Button>
-      </Form>
-    </>
+        <Form onSubmit={handleEndGame}>
+          <Button type="submit" style={{ width: "100%" }}>
+            End Game
+          </Button>
+        </Form>
+      </Stack>
+    </Container>
   );
 }
