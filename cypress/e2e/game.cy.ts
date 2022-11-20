@@ -1,9 +1,9 @@
 import {
-  seedUser,
+  cleanUpGames,
+  cleanUpPlayers,
   cleanUpUser,
   seedPlayers,
-  cleanUpPlayers,
-  cleanUpGames,
+  seedUser,
 } from "../support/supabase";
 
 before(async () => {
@@ -26,7 +26,7 @@ after(async () => {
 });
 
 it("successfully creates a new game", () => {
-  cy.intercept("/game?_data=routes%2Fgame").as("createGame");
+  cy.intercept("/game*").as("createGame");
   cy.visit("/");
 
   cy.findByRole("button", {
