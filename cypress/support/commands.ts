@@ -82,7 +82,9 @@ function createGame() {
     body: {
       _action: "CREATE_GAME",
     },
-  });
+  }).then(({ allRequestResponses }) =>
+    cy.visit(allRequestResponses[1]["Request URL"])
+  );
 
   cy.getCookie("currentGame").should("exist");
 }

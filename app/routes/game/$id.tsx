@@ -42,6 +42,9 @@ export default function GameID() {
 
       {players.map((player: definitions["players"]) => (
         <GridItem
+          className={`score-input ${
+            activePlayer === player.id ? "is-active" : ""
+          }`}
           key={player.id}
           style={
             activePlayer === player.id

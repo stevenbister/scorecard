@@ -49,7 +49,6 @@ it("successfully creates a new game", () => {
 describe("game events", () => {
   beforeEach(() => {
     cy.createGame();
-    cy.visit("/game");
   });
 
   it("successfully ends an existing game", () => {
@@ -106,5 +105,26 @@ describe("game events", () => {
 
     cy.get("#add-players label:first-child").click();
     cy.get('button[form="add-players"]').click();
+  });
+
+  it("tracks player score", () => {
+    cy.findByRole("button", {
+      name: /add player/i,
+    }).click();
+
+    cy.findByText("Test player 1").should("be.visible").click();
+
+    cy.get('button[form="add-players"]').should("be.visible").click();
+
+    cy.get(".chakra-slide").should("not.exist");
+
+    cy.get(".chakra-radio").should("have.length", 2);
+    cy.get(".score-input.is-active").type("1\n2\n3");
+    cy.findByText("Score: 6").should("be.visible");
+
+    cy.findByText("Test player 1").click();
+    cy.findByText("Score: 0").should("be.visible");
+    cy.get(".score-input.is-active").type("4\n5\n6");
+    cy.findByText("Score: 15").should("be.visible");
   });
 });
