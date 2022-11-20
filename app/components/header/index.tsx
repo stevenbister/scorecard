@@ -13,13 +13,21 @@ export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
-export default function Header() {
+export default function Header({
+  currentGameId,
+}: {
+  currentGameId?: string | null;
+}) {
   return (
     <header className="header">
       <nav className="header__nav">
         <List>
           <ListItem>
-            <ChakraLink as={NavLink} to="/" className="header__control">
+            <ChakraLink
+              as={NavLink}
+              to={currentGameId ? `/game/${currentGameId}` : "/"}
+              className="header__control"
+            >
               <VisuallyHidden>Home</VisuallyHidden>
               <FaChessBoard size={24} />
             </ChakraLink>

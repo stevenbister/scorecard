@@ -1,7 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { withEmotionCache } from "@emotion/react";
 import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import type { definitions } from "./types/supabase";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -11,17 +10,20 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useLoaderData,
 } from "@remix-run/react";
 import React, { useContext, useEffect } from "react";
+import type { definitions } from "./types/supabase";
 
-import { ClientStyleContext, ServerStyleContext } from "./context";
-import { getUser } from "./session.server";
-import Header, { links as headerLinks } from "./components/header";
 import {
   Error,
-  StatusError,
   links as exceptionBoundaryLinks,
+  StatusError,
 } from "./components/exceptionBoundary/Error";
+import Header, { links as headerLinks } from "./components/header";
+import { ClientStyleContext, ServerStyleContext } from "./context";
+import { getCurrentGame } from "./models/games.server";
+import { getGameId, getUser } from "./session.server";
 
 export const meta: MetaFunction = () => {
   return {
@@ -49,9 +51,21 @@ interface DocumentProps {
 
 type LoaderData = {
   user?: definitions["profiles"] | null;
+  currentGame?: definitions["games"] | null;
 };
 
 export async function loader({ request }: LoaderArgs) {
+  const gameId = await getGameId(request);
+
+  if (gameId) {
+    const currentGame = await getCurrentGame(gameId);
+
+    return json<LoaderData>({
+      user: await getUser(request),
+      currentGame,
+    });
+  }
+
   return json<LoaderData>({
     user: await getUser(request),
   });
@@ -102,10 +116,14 @@ const Document = withEmotionCache(
 );
 
 export default function App() {
+  const loader = useLoaderData<LoaderData>();
+
   return (
     <Document>
       <ChakraProvider>
-        <Header />
+        <Header
+          currentGameId={loader.currentGame ? loader.currentGame.id : null}
+        />
         <Outlet />
       </ChakraProvider>
     </Document>
