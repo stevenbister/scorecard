@@ -118,7 +118,7 @@ describe("game events", () => {
 
     cy.get(".chakra-slide").should("not.exist");
 
-    cy.get(".chakra-radio").should("have.length", 2);
+    cy.get(".custom-radio").should("have.length", 2);
     cy.get(".score-input.is-active").type("1\n2\n3");
     cy.findByText("Score: 6").should("be.visible");
 

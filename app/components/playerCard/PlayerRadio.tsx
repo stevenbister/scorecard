@@ -12,6 +12,7 @@ export default function PlayerRadio(props: any) {
         borderTopLeftRadius: "25px",
         borderBottomLeftRadius: "25px",
       }}
+      className="custom-radio"
       cursor="pointer"
     >
       <input {...getInputProps()} name="player" value={id} />
