@@ -1,5 +1,6 @@
-import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { Stack, useRadioGroup } from "@chakra-ui/react";
 import type { definitions } from "~/types/supabase";
+import PlayerRadio from "../playerCard/PlayerRadio";
 
 interface Props {
   players: definitions["players"][] | definitions["profiles"][];
@@ -8,19 +9,24 @@ interface Props {
 }
 
 export default function PlayerList({ players, activePlayer, onChange }: Props) {
+  const { getRadioProps, getRootProps } = useRadioGroup({
+    defaultValue: activePlayer,
+    onChange: onChange,
+  });
+
   return (
-    <Stack>
-      <RadioGroup onChange={onChange} value={activePlayer}>
-        {Array.isArray(players) && players.length > 0
-          ? players.map((player) => {
-              return (
-                <Radio key={player.id} value={player.id}>
-                  {player?.name}
-                </Radio>
-              );
-            })
-          : null}
-      </RadioGroup>
+    <Stack {...getRootProps()} height="70vh" pt="18px">
+      {Array.isArray(players) && players.length > 0
+        ? players.map((player) => {
+            return (
+              <PlayerRadio
+                key={player.id}
+                player={player}
+                {...getRadioProps({ value: player.id })}
+              />
+            );
+          })
+        : null}
     </Stack>
   );
 }
