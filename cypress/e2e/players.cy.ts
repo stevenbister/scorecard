@@ -1,8 +1,8 @@
 import {
-  seedUser,
+  cleanUpPlayers,
   cleanUpUser,
   seedPlayers,
-  cleanUpPlayers,
+  seedUser,
 } from "../support/supabase";
 
 before(async () => {

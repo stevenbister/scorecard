@@ -8,6 +8,7 @@ import {
 
 before(async () => {
   // empty any players created during other testing first
+  await cleanUpUser();
   await cleanUpPlayers();
   await seedUser();
   await seedPlayers();
