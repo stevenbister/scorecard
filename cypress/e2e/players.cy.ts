@@ -30,21 +30,8 @@ it("successfully navigates to the players page", () => {
   cy.get("h1").should("have.text", "Players");
 });
 
-it("displays the current user at the top of the list", () => {
-  cy.findByText(/test user/i).should("be.visible");
-
-  cy.get(".chakra-stack > li").should("have.length", 5);
-
-  cy.get(".chakra-stack > li:first-of-type .chakra-text").should(
-    "have.text",
-    "Test User"
-  );
-});
-
 it("adds a new player", () => {
-  // TODO: need to update this so that it should be 4
-  // The current user shouldn't be in the player list
-  cy.get(".chakra-stack > li").should("have.length", 5);
+  cy.get(".chakra-stack > li").should("have.length", 4);
 
   cy.findByRole("button", {
     name: /add new player/i,
