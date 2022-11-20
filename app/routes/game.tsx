@@ -1,7 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import {
   Form,
   Link,
@@ -14,8 +13,8 @@ import type { FormEvent } from "react";
 import PlayerDrawer from "~/components/playerDrawer";
 import { addNewGame, getCurrentGame } from "~/models/games.server";
 import {
-  getAllPlayersByUserId,
   addPlayersToGame,
+  getAllPlayersByUserId,
   getPlayersInGame,
 } from "~/models/players.server";
 import { createGameSession, getGameId, getUser } from "~/session.server";
@@ -48,7 +47,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const _action = formData.get("_action");
-  const player_id = String(formData.get("player"));
+  const playerIds = formData.getAll("player");
 
   const user = await getUser(request);
   if (!user) return redirect("/login");
@@ -71,7 +70,9 @@ export const action: ActionFunction = async ({ request }) => {
   if (_action === "ADD_PLAYER") {
     const gameId = await getGameId(request);
 
-    await addPlayersToGame({ player_id: player_id, game_id: gameId });
+    for (const playerId of playerIds) {
+      await addPlayersToGame({ player_id: String(playerId), game_id: gameId });
+    }
 
     return null;
   }

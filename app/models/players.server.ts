@@ -1,5 +1,5 @@
-import { supabase } from "./supabaseClient.server";
 import type { definitions } from "~/types/supabase";
+import { supabase } from "./supabaseClient.server";
 
 export type User = { id: string; email: string };
 
@@ -23,7 +23,7 @@ export async function addNewPlayer({ id, name }: { id: string; name: string }) {
 }
 
 export async function deletePlayer(id: string) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from<definitions["players"]>("players")
     .delete()
     .match({ id: id });
@@ -50,7 +50,8 @@ export async function getAllPlayersByUserId(id: string) {
       )
     `
     )
-    .eq("user_id", id);
+    .eq("user_id", id)
+    .order("name", { ascending: false });
 
   if (error) return null;
   if (data) return data;

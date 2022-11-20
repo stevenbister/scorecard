@@ -30,21 +30,8 @@ it("successfully navigates to the players page", () => {
   cy.get("h1").should("have.text", "Players");
 });
 
-it("displays the current user at the top of the list", () => {
-  cy.findByText(/test user/i).should("be.visible");
-
-  cy.get(".chakra-stack > li").should("have.length", 5);
-
-  cy.get(".chakra-stack > li:first-of-type .chakra-text").should(
-    "have.text",
-    "Test User"
-  );
-});
-
 it("adds a new player", () => {
-  // TODO: need to update this so that it should be 4
-  // The current user shouldn't be in the player list
-  cy.get(".chakra-stack > li").should("have.length", 5);
+  cy.get(".chakra-stack > li").should("have.length", 4);
 
   cy.findByRole("button", {
     name: /add new player/i,
@@ -55,18 +42,15 @@ it("adds a new player", () => {
 
   cy.get(".chakra-input").should("be.visible").type("New player");
 
-  // cy.get('button[type="submit"]').click();
   cy.findByRole("button", {
     name: /save player/i,
   }).click();
 
-  cy.get(".chakra-stack > li:last-of-type .chakra-text").should(
-    "have.text",
-    "New player"
-  );
+  cy.findByText("New player").should("be.visible");
 });
 
 it("deletes a player", () => {
-  cy.get(".chakra-stack > li:last-of-type .chakra-button").click();
-  cy.findByText(/new player/i).should("not.exist");
+  cy.get('[data-cy="Delete New player"]').should("be.visible").click();
+
+  cy.findByText("New player").should("not.exist");
 });

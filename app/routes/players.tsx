@@ -4,8 +4,7 @@ import type {
   LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import AddPlayerModal from "~/components/addPlayerModal";
 import PlayerCard from "~/components/playerCard";
@@ -16,7 +15,6 @@ import {
 } from "~/models/players.server";
 import { getUser } from "~/session.server";
 import type { definitions } from "~/types/supabase";
-import { useUser } from "~/utils";
 
 export const meta: MetaFunction = () => {
   return {
@@ -72,7 +70,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Players() {
-  const user = useUser();
   const { players } = useLoaderData<LoaderData>();
 
   return (
@@ -88,10 +85,6 @@ export default function Players() {
         </Heading>
 
         <Stack as={List} spacing={6}>
-          <ListItem>
-            <PlayerCard key={user.id} player={user} />
-          </ListItem>
-
           {Array.isArray(players)
             ? players.map((player) => (
                 <ListItem key={player.id}>

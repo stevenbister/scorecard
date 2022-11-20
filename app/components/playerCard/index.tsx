@@ -42,6 +42,7 @@ export default function PlayerCard({ player }: Props) {
             <Button
               size="sm"
               type="submit"
+              data-cy={`Delete ${player.name}`}
               isLoading={
                 fetcher.state === "submitting" || fetcher.state === "loading"
               }
