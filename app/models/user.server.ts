@@ -1,5 +1,5 @@
-import { supabase } from "./supabaseClient.server";
 import type { definitions, paths } from "~/types/supabase";
+import { supabase } from "./supabaseClient.server";
 
 export type User = { id: string; email: string };
 
@@ -87,8 +87,16 @@ export async function updateProfileById(
     .eq("id", id)
     .single();
 
-  if (error) return null;
-  if (data) return data;
+  const { data: playerData, error: playerError } = await supabase
+    .from<definitions["players"]>("players")
+    .update({
+      name: update.name,
+    })
+    .eq("id", id)
+    .single();
+
+  if (error || playerError) return null;
+  if (data || playerData) return data;
 }
 
 export async function verifyLogin(email: string, password: string) {
