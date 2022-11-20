@@ -12,11 +12,15 @@ export default function PlayerCheckbox(props: any) {
         borderBottomLeftRadius: "25px",
       }}
       cursor="pointer"
-      bg={state.isHovered || state.isChecked ? "purple.100" : ""}
     >
       <input {...getInputProps()} hidden name="player" value={id} />
       <Stack direction="row" alignItems="center" {...getCheckboxProps()}>
-        <Avatar name={name} size="md" />
+        <Avatar
+          name={name}
+          size="md"
+          borderWidth="5px"
+          borderColor={state.isHovered || state.isChecked ? "purple.200" : ""}
+        />
 
         <Text textAlign="center" {...getLabelProps()}>
           {name}
