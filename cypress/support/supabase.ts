@@ -1,7 +1,7 @@
-import type { definitions } from "~/types/supabase";
 import { createClient } from "@supabase/supabase-js";
-import testUser from "../fixtures/user.json";
+import type { definitions } from "~/types/supabase";
 import testPlayers from "../fixtures/players.json";
+import testUser from "../fixtures/user.json";
 
 const supabaseUrl = Cypress.env("SUPABASE_URL");
 const supabaseServiceRole = Cypress.env("SUPABASE_SERVICE_ROLE");
@@ -82,7 +82,7 @@ export async function seedPlayers() {
       .from<definitions["players"]>("players")
       .insert({
         user_id: userID,
-        player_name: player.name,
+        name: player.name,
       })
       .single();
 
@@ -104,19 +104,16 @@ export async function cleanUpPlayers() {
   const players = await getPlayers();
 
   players?.forEach(async (player) => {
-    console.log(`removing player ${player.name} from db...`);
+    if (player.id !== userID) {
+      console.log(`removing player ${player.name} from db...`);
+    }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from<definitions["players"]>("players")
       .delete()
-      .match({ user_id: userID });
+      .filter("id", "not.eq", userID);
 
     if (error) console.log(error);
-
-    if (data) {
-      console.log(`${player.name} removed`);
-      return data;
-    }
   });
 }
 

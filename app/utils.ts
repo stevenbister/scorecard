@@ -1,5 +1,5 @@
-import { useMemo } from "react";
 import { useMatches } from "@remix-run/react";
+import { useMemo } from "react";
 import type { User } from "./models/user.server";
 
 export function useMatchesData(id: string) {
@@ -34,6 +34,49 @@ export function useUser() {
   return maybeUser;
 }
 
+export function usePlayers() {
+  const data = useMatchesData("routes/game");
+  if (!data) {
+    throw new Error("No players found in games loader.");
+  }
+
+  return data.playersInGame;
+}
+
 export function validateEmail(email: unknown): email is string {
   return typeof email === "string" && email.length > 3 && email.includes("@");
 }
+
+export const removeNewLine = (str: string) => {
+  // replace any new lines and any whitespace
+  return str.replace(/\n/g, " ").replace(/\s+/g, " ");
+};
+
+export const stringToArray = (str: string) => {
+  const array = str.trim().split(" ");
+
+  // If the first item in the array is empty then remove it
+  // Fixes an issue in FireFox where empty first item was getting added
+  if (Array.isArray(array) && array[0] === "") {
+    array.shift();
+  }
+
+  return array;
+};
+
+export const arrayValuesToNumbers = (arr: string[]) => {
+  return arr.map((value) => Number(value));
+};
+
+export const sumArray = (arr: number[]) => {
+  if (arr.length <= 0) return 0;
+
+  const result = arr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
+  );
+
+  // Catch NaN value and return 0 as a nice output for the user
+  if (isNaN(result)) return 0;
+
+  return result;
+};

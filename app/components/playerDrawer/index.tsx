@@ -18,7 +18,7 @@ import PlayerCheckbox from "./PlayerCheckbox";
 
 interface Props {
   players: definitions["players"][];
-  playersInGame: definitions["players"]["id"][];
+  playersInGame: definitions["players"][];
 }
 
 export default function PlayerDrawer({ players, playersInGame }: Props) {
@@ -49,7 +49,9 @@ export default function PlayerDrawer({ players, playersInGame }: Props) {
               <Stack spacing={4}>
                 {Array.isArray(players)
                   ? players.map((player) => {
-                      const isSelected = playersInGame.includes(player.id);
+                      const isSelected = playersInGame.find(
+                        (p) => p.id === player.id
+                      );
 
                       return (
                         <PlayerCheckbox
