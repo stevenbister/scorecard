@@ -1,69 +1,79 @@
-@import url("https://fonts.googleapis.com/css2?family=Boogaloo&display=swap");
-
 :root {
-  --color__bg: #fbfffe;
-  --color__bg--dark: #2e2e2e;
-  --color__primary: #4ecdc4;
-  --color__secondary: #e75a7c;
-  --color__text: #584b53;
-  --color__text--dark: #fbfffe;
-  --font__primary--family: "Boogaloo", cursive;
-  --font__size--body: 1.5rem;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  background: var(--color__bg);
-  color: var(--color__text);
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
 }
 
-html.is-dark {
-  --color__bg: var(--color__bg--dark);
-  --color__text: var(--color__text--dark);
-}
-
-.App {
-  font-family: var(--font__primary--family);
-  height: 100vh;
-}
-
-.App__header {
+body {
+  margin: 0;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: solid 1px var(--color__text);
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
-.App__header h1 {
-  font-size: 2.25rem;
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
 }
 
-.App__main {
-  display: flex;
-  grid-auto-flow: row;
-  padding: 0 0.5rem;
-  min-height: calc(100vh - 87px);
-  overflow-x: scroll;
+.card {
+  padding: 2em;
 }
 
-.App__button--container {
-    display: flex;
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
-.App__button {
-  display: inline-flex;
-  align-items: center;
-  background: none;
-  border: none;
-  font-size: 1.7rem;
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
   cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
-.App__button--primary {
-  color: var(--color__primary);
-}
-
-.App__button--secondary {
-  color: var(--color__secondary);
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
 }
