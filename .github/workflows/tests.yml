@@ -1,0 +1,23 @@
+name: Tests CI
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+jobs:
+  tests:
+    - name: ⬇️ Checkout repo
+      uses: actions/checkout@v4
+
+    # Cache node_modules
+    - name: ⎔ Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: ".nvmrc"
+        cache: 'npm'
+
+    - name: 📥 Download deps
+      run: npm ci
+
+    - name: 👀 Lint files
+      run: npm run lint
