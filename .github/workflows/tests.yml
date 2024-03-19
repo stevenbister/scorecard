@@ -23,3 +23,6 @@ jobs:
 
       - name: 👀 Lint files
         run: npm run lint
+      
+      - name: 👀 Typecheck
+        run: npm run check
