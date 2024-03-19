@@ -24,5 +24,9 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "vite": "^5.1.6"
+  },
+  "dependencies": {
+    "open-props": "^1.6.21",
+    "postcss-jit-props": "^1.0.14"
   }
 }
