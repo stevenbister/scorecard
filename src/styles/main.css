@@ -1,0 +1,11 @@
+/*
+ As you use props, the PostCSS plugin
+ "jit-props" will add them to the stylesheet.
+ see postcss.config.js for more
+*/
+
+/*
+ open-props normalize isn't required, but makes for a nice base.
+ normalize includes light and dark vars for adaptive theming
+ */
+@import url('open-props/normalize');
