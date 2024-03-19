@@ -9,3 +9,13 @@
  normalize includes light and dark vars for adaptive theming
  */
 @import url('open-props/normalize');
+
+:root {
+    --accent-color: var(--gray-12);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --accent-color: var(--gray-3);
+    }
+}
