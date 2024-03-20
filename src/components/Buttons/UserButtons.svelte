@@ -37,7 +37,7 @@
     };
 </script>
 
-<div>
+<div class="btn-group">
     {#each Object.keys(userButtons) as button}
         <button
             class={`btn ${userButtons[button].className}`}
@@ -50,7 +50,7 @@
 </div>
 
 <style>
-    div {
+    .btn-group {
         display: flex;
     }
 
