@@ -1,33 +1,48 @@
 <script lang="ts">
-    import UserMinus from "../Icons/UserMinus.svelte";
-    import UserPlus from "../Icons/UserPlus.svelte";
-    import VisuallyHidden from "../VisuallyHidden/VisuallyHidden.svelte";
+    import store from '../../stores/players';
+    import UserMinus from '../Icons/UserMinus.svelte';
+    import UserPlus from '../Icons/UserPlus.svelte';
+    import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.svelte';
 
-    type UserButton = {
+    let playerIndex: number = 0;
+
+    interface UserButton extends HTMLButtonElement {
         icon: typeof UserMinus | typeof UserPlus;
         label: string;
-        class: string;
     }
 
-    type UserButtons = Record<string, UserButton>;
+    type UserButtons = Record<string, Partial<UserButton>>;
 
     const userButtons: UserButtons = {
         add: {
             icon: UserPlus,
-            label: "Add user",
-            class: "btn--add"
+            label: 'Add player',
+            className: 'btn--add',
+            onclick: () => {
+                playerIndex = playerIndex + 1;
+                store.addPlayer(playerIndex);
+            },
         },
         remove: {
             icon: UserMinus,
-            label: "Remove user",
-            class: "btn--remove"
-        }
-    }
+            label: 'Remove player',
+            className: 'btn--remove',
+            onclick: () => {
+                if (playerIndex === 0) return;
+
+                store.removePlayer(playerIndex);
+                playerIndex = playerIndex - 1;
+            },
+        },
+    };
 </script>
 
 <div>
     {#each Object.keys(userButtons) as button}
-        <button class={`btn ${userButtons[button].class}`}>
+        <button
+            class={`btn ${userButtons[button].className}`}
+            on:click={userButtons[button].onclick}
+        >
             <svelte:component this={userButtons[button].icon} />
             <VisuallyHidden>{userButtons[button].label}</VisuallyHidden>
         </button>
@@ -44,19 +59,19 @@
     }
 
     .btn.btn--add {
-        color: var(--green-9)
+        color: var(--green-9);
     }
 
     .btn.btn--remove {
-        color: var(--red-8)
+        color: var(--red-8);
     }
 
     @media (prefers-color-scheme: dark) {
         .btn.btn--add {
-            color: var(--green-3)
+            color: var(--green-3);
         }
         .btn.btn--remove {
-            color: var(--red-3)
+            color: var(--red-3);
         }
     }
 </style>
