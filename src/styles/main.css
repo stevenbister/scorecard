@@ -11,11 +11,19 @@
 @import url('open-props/normalize');
 
 :root {
+    /* General */
     --accent-color: var(--gray-12);
+    /* Buttons */
+    --btn-danger: var(--red-8);
+    --btn-success: var(--green-9);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
+        /* General */
         --accent-color: var(--gray-3);
+        /* Buttons */
+        --btn-danger: var(--red-3);
+        --btn-success: var(--green-3);
     }
 }
