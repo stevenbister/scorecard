@@ -3,21 +3,23 @@
     import UserMinus from '../Icons/UserMinus.svelte';
     import UserPlus from '../Icons/UserPlus.svelte';
     import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.svelte';
+    import Button from './Button.svelte';
+    import type { ButtonProps } from './types';
 
-    let playerIndex: number = 0;
-
-    interface UserButton extends HTMLButtonElement {
+    interface UserButton extends ButtonProps {
         icon: typeof UserMinus | typeof UserPlus;
         label: string;
+        onclick: () => void;
     }
-
     type UserButtons = Record<string, Partial<UserButton>>;
+
+    let playerIndex: number = 0;
 
     const userButtons: UserButtons = {
         add: {
             icon: UserPlus,
             label: 'Add player',
-            className: 'btn--add',
+            variant: 'success',
             onclick: () => {
                 playerIndex = playerIndex + 1;
                 store.addPlayer(playerIndex);
@@ -26,7 +28,7 @@
         remove: {
             icon: UserMinus,
             label: 'Remove player',
-            className: 'btn--remove',
+            variant: 'danger',
             onclick: () => {
                 if (playerIndex === 0) return;
 
@@ -39,39 +41,18 @@
 
 <div class="btn-group">
     {#each Object.keys(userButtons) as button}
-        <button
-            class={`btn ${userButtons[button].className}`}
+        <Button
+            variant={userButtons[button].variant}
             on:click={userButtons[button].onclick}
         >
             <svelte:component this={userButtons[button].icon} />
             <VisuallyHidden>{userButtons[button].label}</VisuallyHidden>
-        </button>
+        </Button>
     {/each}
 </div>
 
 <style>
     .btn-group {
         display: flex;
-    }
-
-    .btn {
-        background-color: transparent;
-    }
-
-    .btn.btn--add {
-        color: var(--green-9);
-    }
-
-    .btn.btn--remove {
-        color: var(--red-8);
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .btn.btn--add {
-            color: var(--green-3);
-        }
-        .btn.btn--remove {
-            color: var(--red-3);
-        }
     }
 </style>
