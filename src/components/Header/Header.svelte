@@ -1,5 +1,5 @@
 <script>
-    import UserButtons from "../Buttons/UserButtons.svelte";
+    import UserButtons from '../Buttons/UserButtons.svelte';
 </script>
 
 <header>
@@ -12,6 +12,7 @@
     header {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: var(--size-fluid-2);
         border-bottom: var(--border-size-1) solid var(--accent-color);
     }
