@@ -13,7 +13,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: var(--size-fluid-2);
+        padding: var(--container-padding);
         border-bottom: var(--border-size-1) solid var(--accent-color);
     }
 

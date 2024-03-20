@@ -11,19 +11,20 @@
 @import url('open-props/normalize');
 
 :root {
-    /* General */
+    /* Colors */
     --accent-color: var(--gray-12);
-    /* Buttons */
-    --btn-danger: var(--red-8);
-    --btn-success: var(--green-9);
+    --color-danger: var(--red-8);
+    --color-success: var(--green-9);
+
+    /* Spacing */
+    --container-padding: var(--size-fluid-2);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        /* General */
+        /* Colors */
         --accent-color: var(--gray-3);
-        /* Buttons */
-        --btn-danger: var(--red-3);
-        --btn-success: var(--green-3);
+        --color-danger: var(--red-3);
+        --color-success: var(--green-3);
     }
 }

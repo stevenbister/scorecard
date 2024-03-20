@@ -42,10 +42,10 @@
     }
 
     .btn.success {
-        color: var(--btn-success);
+        color: var(--color-success);
     }
 
     .btn.danger {
-        color: var(--btn-danger);
+        color: var(--color-danger);
     }
 </style>
