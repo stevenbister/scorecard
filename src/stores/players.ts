@@ -30,9 +30,23 @@ function removePlayer(id: number) {
     );
 }
 
+function updatePlayerName(id: number, name: string) {
+    playerStore.update((players) =>
+        players.map((player) =>
+            player.id === id ? { ...player, name } : player
+        )
+    );
+}
+
+function getPlayers() {
+    return playerStore;
+}
+
 const store = {
     addPlayer,
     removePlayer,
+    updatePlayerName,
+    getPlayers,
 };
 
 export default store;
