@@ -38,6 +38,14 @@ function updatePlayerName(id: number, name: string) {
     );
 }
 
+function updatePlayerRounds(id: number, rounds: number[]) {
+    playerStore.update((players) =>
+        players.map((player) =>
+            player.id === id ? { ...player, rounds } : player
+        )
+    );
+}
+
 function getPlayers() {
     return playerStore;
 }
@@ -46,6 +54,7 @@ const store = {
     addPlayer,
     removePlayer,
     updatePlayerName,
+    updatePlayerRounds,
     getPlayers,
 };
 
