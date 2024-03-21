@@ -3,9 +3,11 @@
     import {
         arrayToString,
         arrayValuesToNumbers,
+        debounce,
         stringToArray,
     } from '../../utils';
     import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.svelte';
+
     export let playerId: number | undefined = undefined;
     export let scores: number[] = [];
 
@@ -30,5 +32,5 @@
     name={`player-${playerId}-scores`}
     id={`player-${playerId}-scores`}
     bind:value
-    on:input={handleInput}
+    on:input={debounce(() => handleInput(), 200)}
 />
