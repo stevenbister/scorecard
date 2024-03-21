@@ -5,6 +5,7 @@
         arrayValuesToNumbers,
         stringToArray,
     } from '../../utils';
+    import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.svelte';
     export let playerId: number | undefined = undefined;
     export let rounds: number[] = [];
 
@@ -22,6 +23,9 @@
     }
 </script>
 
+<VisuallyHidden>
+    <label for={`player-${playerId}-rounds`}>Add score for {playerId}</label>
+</VisuallyHidden>
 <textarea
     name={`player-${playerId}-rounds`}
     id={`player-${playerId}-rounds`}
