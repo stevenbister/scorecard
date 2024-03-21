@@ -23,12 +23,15 @@
     <label for={`player-${playerId}-name`}>Add name for player {playerId}</label
     >
 </VisuallyHidden>
+
+<!-- svelte-ignore a11y-autofocus -->
 <input
     type="text"
     name={`player-${playerId}-name`}
     id={`player-${playerId}-name`}
     bind:value={name}
     on:input={debounce(() => handleInput(), 200)}
+    autofocus
 />
 
 <style>
