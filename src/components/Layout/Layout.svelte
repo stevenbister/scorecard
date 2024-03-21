@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Header from "../Header/Header.svelte";
+    import Header from '../Header/Header.svelte';
 </script>
 
 <Header />
@@ -8,9 +8,14 @@
 </main>
 
 <style>
-    main {
+    :global(#app) {
+        height: 100dvh;
         display: flex;
         flex-direction: column;
-        height: 100dvh;
+    }
+
+    main {
+        align-self: stretch;
+        height: 100%;
     }
 </style>

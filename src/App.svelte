@@ -14,7 +14,7 @@
                 localStorage.clear();
                 location.reload();
             }}
-            style="position: fixed; bottom: 0; left: 0; right: 0;padding: 1rem; background-color: var(--color-danger);
+            style="position: fixed; bottom: 50%; right: 0;padding: 1rem; background-color: var(--color-danger);
             color: white;">Reset</button
         >
     {/if}

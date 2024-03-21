@@ -44,5 +44,6 @@
         font-weight: var(--fw-primary);
         padding-inline: var(--container-padding);
         font-variant-numeric: tabular-nums;
+        resize: none;
     }
 </style>
