@@ -6,8 +6,8 @@ const stored = localStorage.getItem('players') ?? '[]';
 interface Player {
     id: number;
     name: string;
-    score: number;
-    rounds: number[];
+    scores: number[];
+    totalScore: number;
 }
 
 // Set the stored value
@@ -20,7 +20,7 @@ playerStore.subscribe((value) =>
 function addPlayer(id: number) {
     playerStore.update((players) => [
         ...players,
-        { id, name: '', score: 0, rounds: [] },
+        { id, name: '', totalScore: 0, scores: [] },
     ]);
 }
 
@@ -38,10 +38,10 @@ function updatePlayerName(id: number, name: string) {
     );
 }
 
-function updatePlayerRounds(id: number, rounds: number[]) {
+function updatePlayerScores(id: number, scores: number[]) {
     playerStore.update((players) =>
         players.map((player) =>
-            player.id === id ? { ...player, rounds } : player
+            player.id === id ? { ...player, scores } : player
         )
     );
 }
@@ -54,7 +54,7 @@ const store = {
     addPlayer,
     removePlayer,
     updatePlayerName,
-    updatePlayerRounds,
+    updatePlayerScores,
     getPlayers,
 };
 

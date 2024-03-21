@@ -7,9 +7,9 @@
     } from '../../utils';
     import VisuallyHidden from '../VisuallyHidden/VisuallyHidden.svelte';
     export let playerId: number | undefined = undefined;
-    export let rounds: number[] = [];
+    export let scores: number[] = [];
 
-    let value = arrayToString(rounds, '\n');
+    let value = arrayToString(scores, '\n');
 
     function handleInput() {
         if (playerId === undefined || playerId === null) {
@@ -17,18 +17,18 @@
         }
 
         const valueToArray = stringToArray(value, '\n');
-        const rounds = arrayValuesToNumbers(valueToArray);
+        const scores = arrayValuesToNumbers(valueToArray);
 
-        store.updatePlayerRounds(playerId, rounds);
+        store.updatePlayerScores(playerId, scores);
     }
 </script>
 
 <VisuallyHidden>
-    <label for={`player-${playerId}-rounds`}>Add score for {playerId}</label>
+    <label for={`player-${playerId}-scores`}>Add score for {playerId}</label>
 </VisuallyHidden>
 <textarea
-    name={`player-${playerId}-rounds`}
-    id={`player-${playerId}-rounds`}
+    name={`player-${playerId}-scores`}
+    id={`player-${playerId}-scores`}
     bind:value
     on:input={handleInput}
 />

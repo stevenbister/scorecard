@@ -1,7 +1,7 @@
 <script lang="ts">
     import store from '../../stores/players';
     import PlayerNameInput from './PlayerNameInput.svelte';
-    import PlayerRoundsInput from './PlayerRoundsInput.svelte';
+    import PlayerScoresInput from './PlayerScoresInput.svelte';
     const players = store.getPlayers();
 </script>
 
@@ -9,9 +9,9 @@
     {#each $players as player}
         <div class="grid-col">
             <PlayerNameInput playerId={player.id} name={player.name} />
-            <PlayerRoundsInput playerId={player.id} rounds={player.rounds} />
+            <PlayerScoresInput playerId={player.id} scores={player.scores} />
 
-            <p>Score: {player.score}</p>
+            <p>Score: {player.totalScore}</p>
         </div>
     {/each}
 </div>
