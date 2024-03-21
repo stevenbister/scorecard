@@ -33,9 +33,10 @@
 
 <style>
     input {
+        background-color: var(--color-input-bg);
         width: 100%;
-        font-size: var(--font-size-3);
-        font-weight: var(--font-weight-7);
+        font-size: var(--fs-primary);
+        font-weight: var(--fw-primary);
         padding-inline: var(--container-padding);
     }
 </style>

@@ -34,3 +34,15 @@
     bind:value
     on:input={debounce(() => handleInput(), 200)}
 />
+
+<style>
+    textarea {
+        background-color: var(--color-input-bg);
+        width: 100%;
+        height: 100%;
+        font-size: var(--fs-primary);
+        font-weight: var(--fw-primary);
+        padding-inline: var(--container-padding);
+        font-variant-numeric: tabular-nums;
+    }
+</style>

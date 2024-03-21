@@ -15,9 +15,14 @@
     --accent-color: var(--gray-12);
     --color-danger: var(--red-8);
     --color-success: var(--green-9);
+    --color-input-bg: transparent;
 
     /* Spacing */
     --container-padding: var(--size-fluid-2);
+
+    /* Typography */
+    --fs-primary: var(--font-size-3);
+    --fw-primary: var(--font-weight-7);
 }
 
 @media (prefers-color-scheme: dark) {
