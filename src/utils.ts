@@ -25,5 +25,9 @@ export function arrayToString(arr: (string | number)[], separator: string) {
 }
 
 export function arrayValuesToNumbers(arr: string[]) {
-    return arr.map((value) => Number(value));
+    return arr.map((value) => {
+        if (isNaN(Number(value))) return 0;
+
+        return Number(value);
+    });
 }
