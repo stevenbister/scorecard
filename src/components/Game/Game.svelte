@@ -2,6 +2,7 @@
     import store from '../../stores/players';
     import PlayerNameInput from './PlayerNameInput.svelte';
     import PlayerScoresInput from './PlayerScoresInput.svelte';
+    import TotalScore from './TotalScore.svelte';
     const players = store.getPlayers();
 </script>
 
@@ -11,7 +12,7 @@
             <PlayerNameInput playerId={player.id} name={player.name} />
             <PlayerScoresInput playerId={player.id} scores={player.scores} />
 
-            <p>Score: {player.totalScore}</p>
+            <TotalScore playerId={player.id} scores={player.scores} />
         </div>
     {/each}
 </div>
@@ -24,6 +25,8 @@
     }
 
     .grid-col {
+        display: flex;
+        flex-direction: column;
         flex: 1 1 auto;
         min-width: 50%;
         border-left: 1px solid var(--accent-color);

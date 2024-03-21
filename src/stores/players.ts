@@ -46,6 +46,14 @@ function updatePlayerScores(id: number, scores: number[]) {
     );
 }
 
+function updateTotalScore(id: number, totalScore: number) {
+    playerStore.update((players) =>
+        players.map((player) =>
+            player.id === id ? { ...player, totalScore } : player
+        )
+    );
+}
+
 function getPlayers() {
     return playerStore;
 }
@@ -55,6 +63,7 @@ const store = {
     removePlayer,
     updatePlayerName,
     updatePlayerScores,
+    updateTotalScore,
     getPlayers,
 };
 
