@@ -12,11 +12,16 @@
     export let scores: number[] = [];
 
     let value = arrayToString(scores, '\n');
+    $: scores.length === 0 && (value = '');
 
-    function handleInput() {
+    function handleInput(
+        e: Event & { target: EventTarget & HTMLTextAreaElement }
+    ) {
         if (playerId === undefined || playerId === null) {
             throw new Error('playerId must be defined');
         }
+
+        value = e.target?.value;
 
         const valueToArray = stringToArray(value, '\n');
         const scores = arrayValuesToNumbers(valueToArray);
@@ -31,9 +36,11 @@
 <textarea
     name={`player-${playerId}-scores`}
     id={`player-${playerId}-scores`}
-    bind:value
-    on:input={debounce(() => handleInput(), 200)}
+    {value}
+    on:input={debounce((e) => handleInput(e), 200)}
 />
+
+<!-- TODO: Add better types for debounce -->
 
 <style>
     textarea {

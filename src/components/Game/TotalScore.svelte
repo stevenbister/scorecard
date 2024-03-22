@@ -1,5 +1,6 @@
 <script lang="ts">
     import store from '../../stores/players';
+    import ResetScore from './ResetScore.svelte';
 
     export let playerId: number | undefined = undefined;
     export let scores: number[] = [];
@@ -23,10 +24,15 @@
 
 <div>
     <p>Score: {totalScore}</p>
+
+    <ResetScore {playerId} />
 </div>
 
 <style>
     div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         font-size: var(--fs-primary);
         font-weight: var(--fw-primary);
         padding-inline: var(--container-padding);
