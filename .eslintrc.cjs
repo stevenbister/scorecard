@@ -30,4 +30,8 @@ module.exports = {
         // override/add rules settings here, such as:
         // 'svelte/rule-name': 'error'
     },
+    globals: {
+        localStorage: true,
+        location: true,
+    },
 };
