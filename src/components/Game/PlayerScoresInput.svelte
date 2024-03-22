@@ -40,8 +40,6 @@
     on:input={debounce((e) => handleInput(e), 200)}
 />
 
-<!-- TODO: Add better types for debounce -->
-
 <style>
     textarea {
         background-color: var(--color-input-bg);
